@@ -135,7 +135,7 @@ BigNumber BigNumber::operator+(BigNumber a) {
 	}
 }
 BigNumber BigNumber::operator+() {
-
+	isNeg = false;
 }
 BigNumber BigNumber::operator-(BigNumber a) {
 	// alter the sign
@@ -274,5 +274,5 @@ BigNumber BigNumber::operator-(BigNumber a) {
 	}
 }
 BigNumber BigNumber::operator-() {
-
+	isNeg = true;
 }
