@@ -26,13 +26,14 @@ public:
 	BigNumber(const BigNumber& a);
 
 	//BigNumber operator+(const BigNumber&);
-	BigNumber operator+();
 	//BigNumber operator-(BigNumber);
-	BigNumber operator-();
 	//BigNumber operator*(BigNumber);
 	//BigNumber operator/(BigNumber);
-	BigNumber power(BigNumber a, BigNumber b); // a^b
-	BigNumber factorial(); // n!
+	BigNumber operator+();
+	BigNumber operator-();
+
+	friend BigNumber Power(BigNumber a, BigNumber b); // a^b
+	friend BigNumber factorial(BigNumber a); // n!
 	
 	// BigNumber& operator=(const BigNumber &);
 	friend std::ostream& operator<<(std::ostream& os, const BigNumber &);

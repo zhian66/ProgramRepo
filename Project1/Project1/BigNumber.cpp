@@ -120,13 +120,15 @@ BigNumber operator+(const BigNumber& a, const BigNumber& b) {
 		if (carry) 
 			c.digits[i] += carry;
 	} else if (a.isNeg && !b.isNeg) {
-		BigNumber temp = b;
-		temp.isNeg = 0;
-		c = a - temp;
-	} else if (!a.isNeg && b.isNeg) {
+		// a:- b:+
 		BigNumber temp = a;
 		temp.isNeg = 0;
 		c = b - temp;
+	} else if (!a.isNeg && b.isNeg) {
+		// a:+ b:-
+		BigNumber temp = b;
+		temp.isNeg = 0;
+		c = a - temp;
 	} else {
 		BigNumber temp = a;
 		temp.isNeg = 0;
@@ -528,8 +530,14 @@ BigNumber BigNumber::operator-() {
 	return *this;
 }
 
-BigNumber BigNumber::factorial() {
-	return *this;
+BigNumber factorial(BigNumber a) {
+	return a;
+}
+
+BigNumber Power(BigNumber a, BigNumber b) {
+	BigNumber c = a;
+	int times;
+	return c;
 }
 
 std::ostream& operator<<(std::ostream& os, const BigNumber & num) {

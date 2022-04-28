@@ -132,10 +132,12 @@ bool isOper(string s) {
 BigNumber sum() {
 	stack<BigNumber> numStack;
 	BigNumber num;
+	
 	for (auto n : postfix) {
 		cout << n << " ";
 	}
 	cout << endl;
+	
 	
 	for (int i = 0; i < postfix.size(); i++) {
 		string str = postfix[i];
@@ -176,7 +178,18 @@ BigNumber sum() {
 			numStack.pop();
 			numStack.push(num);
 		} 
-
+		if (str == "^") {
+			num = numStack.top();
+			numStack.pop();
+			num = Power(num, numStack.top());
+			numStack.pop();
+			numStack.push(num);
+		}
+		if (str == "!") {
+			num = factorial(numStack.top());
+			numStack.pop();
+			numStack.push(num);
+		}
 	}
 	
 	return numStack.top();
@@ -281,7 +294,7 @@ BigNumber calculate(const string& input) {
 後序式: 10 7 - 5 11 + 8 11 * 6 - - 8 + /
 
 
-計算式:	 / 2 = 385
+計算式:	 ( 10 + 5 + ( 9 * ( 5 + 6 ) - 4 ) ) * 7 / 2 = 385
 10 5 + 9 5 6 + * 4 - + 7 * 2 /
 
 */
