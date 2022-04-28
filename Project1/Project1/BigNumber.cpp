@@ -1,7 +1,245 @@
 #include "BigNumber.h"
 #include <vector>
 
-BigNumber BigNumber::operator+(BigNumber a) {
+
+BigNumber::BigNumber() {
+	isNeg = 0;
+	//dividend = "0";
+	digits.push_back(0);
+	fractional.clear();
+	remainder.clear();
+}
+
+BigNumber::BigNumber(std::string input) {
+	if (input[0] == '-') {
+		isNeg = 1;
+		//dividend = input.substr(1);
+	} else {
+		isNeg = 0;
+		//dividend = input;
+	}
+	for (auto c : input) if (c != '-') digits.push_back(c - '0');
+	std::reverse(digits.begin(), digits.end());
+	fractional.clear();
+	remainder.clear();
+}
+
+BigNumber::BigNumber(long long nr) {
+	if (nr < 0) {
+		isNeg = 1;
+		nr *= -1;
+	}
+	do {
+		//dividend.push_back(nr % 10);
+		digits.push_back(nr % 10);
+		nr /= 10;
+	} while (nr);
+	std::reverse(digits.begin(), digits.end());
+	fractional.clear();
+	remainder.clear();
+}
+
+BigNumber::BigNumber(const BigNumber& a) {
+	//dividend = a.dividend;
+	isNeg = a.isNeg;
+	digits = a.digits;
+	fractional = a.fractional;
+	remainder = a.remainder;
+}
+
+int Length(const BigNumber& a) {
+	//return a.dividend.size();
+	/*
+	int size = a.digits.size();
+	while (a.digits[size-1] != 0 && size > 0) {
+		size--;
+	}
+	return size;
+	*/
+	return a.digits.size();
+}
+
+void printError() {
+	std::cout << ERROR_MSG << std::endl;
+}
+
+bool operator<(const BigNumber& a, const BigNumber& b) {
+	int n = Length(a), m = Length(b);
+	if (a.isNeg && !b.isNeg) return true; // a:- b:+
+	else if (!a.isNeg && b.isNeg) return false; // a:+ b:-
+	if (n != m)
+		return (n < m)&&(!a.isNeg); 
+	// a:+ b:+ , len(a) < len(b) => true
+	// a:- b:- , len(a) < len(b) => false
+	/*
+	while (n--)
+		if (a.dividend[n] != b.dividend[n])
+			return (a.dividend[n] < b.dividend[n]) && (!a.isNeg);
+	*/
+	while (n--) {
+		if (a.digits[n] != b.digits[n]) {
+			return (a.digits[n] < b.digits[n]) && (!a.isNeg);
+		}
+	}
+	return false;
+}
+
+bool operator>(const BigNumber& a, const BigNumber& b) {
+	return b < a;
+}
+bool operator>=(const BigNumber& a, const BigNumber& b) {
+	return !(a < b);
+}
+bool operator<=(const BigNumber& a, const BigNumber& b) {
+	return !(a > b);
+}
+bool operator==(const BigNumber& a, const BigNumber& b) {
+	if (a.isNeg != b.isNeg) return false;
+	if (Length(a) != Length(b)) {
+		return false;
+	}
+	for (int i = 0; i < Length(a); i++) {
+		if (a.digits[i] != b.digits[i]) return false;
+	}
+	return true;
+}
+
+BigNumber operator+(const BigNumber& a, const BigNumber& b) {
+	BigNumber c;
+	int i = 0, carry = 0;
+	int m = Length(a), n = Length(b), size = m > n ? m+1 : n+1;
+	c.digits.resize(size, 0);
+	if (!a.isNeg && !b.isNeg) {
+		for (i = 0; i < size; ++i) {
+			if (i < m) c.digits[i] += a.digits[i];
+			if (i < n) c.digits[i] += b.digits[i];
+			if (carry) c.digits[i] += carry;
+			carry = c.digits[i] / 10;
+			c.digits[i] %= 10;
+		}
+		if (carry) 
+			c.digits[i] += carry;
+	} else if (a.isNeg && !b.isNeg) {
+		BigNumber temp = b;
+		temp.isNeg = 0;
+		c = a - temp;
+	} else if (!a.isNeg && b.isNeg) {
+		BigNumber temp = a;
+		temp.isNeg = 0;
+		c = b - temp;
+	} else {
+		BigNumber temp = a;
+		temp.isNeg = 0;
+		c = c + temp;
+		temp = b;
+		temp.isNeg = 0;
+		c = c + temp;
+		c.isNeg = 1;
+	}
+	
+
+	return c;
+}
+
+BigNumber operator-(const BigNumber& a, const BigNumber& b) {
+	BigNumber c;
+	int i = 0, borrow = 0;
+	int m = Length(a), n = Length(b), size = m > n ? m + 1 : n + 1;
+	c.digits.resize(size, 0);
+	if (!a.isNeg && !b.isNeg) {
+		if (a > b) {
+			for (i = 0; i < size; ++i) {
+				if (i < m) c.digits[i] += a.digits[i];
+				if (i < n) c.digits[i] -= b.digits[i];
+				c.digits[i] -= borrow;
+				if (c.digits[i] < 0) {
+					borrow = 1;
+					c.digits[i] += 10;
+				} else {
+					borrow = 0;
+				}
+			}
+		} else {
+			c = b - a;
+			c.isNeg = 1;
+		}
+	} else if (a.isNeg && !b.isNeg) {
+		// a:- b:+
+		BigNumber temp = a;
+		temp.isNeg = 0;
+		c = temp + b;
+		c.isNeg = 1;
+	} else if (!a.isNeg && b.isNeg) {
+		// a:+ b:-
+		BigNumber temp = b;
+		temp.isNeg = 0;
+		c = a + temp;
+	} else {
+		// a:- b:- (- +)
+		BigNumber temp1 = a;
+		BigNumber temp2 = b;
+		temp1.isNeg = 0;
+		temp2.isNeg = 0;
+		c = b - a;
+	}
+	return c;
+}
+
+BigNumber operator*(const BigNumber& a, const BigNumber& b) {
+	BigNumber c;
+	int m = Length(a), n = Length(b), size = m > n ? m : n;
+	c.digits.resize(m+n, 0);
+	for (int i = 0; i < m; ++i) {
+		for (int j = 0; j < n; j++) {
+			c.digits[i + j] += a.digits[i] * b.digits[j];
+		}
+	}
+	for (int i = 0; i < m + n - 1; i++) {
+		if (c.digits[i] > 10) {
+			c.digits[i+1] += c.digits[i] / 10;
+			c.digits[i] %= 10;
+		}
+	}
+	if (a.isNeg || b.isNeg) c.isNeg = 1;
+	return c;
+}
+
+BigNumber operator/(const BigNumber& a, const BigNumber& b) {
+	BigNumber c;
+	bool vaild = false;
+	for (auto n : b.digits) {
+		if (n != 0) {
+			vaild = true;
+			break;
+		}
+	}
+	if (!vaild) {
+		printError();
+		return c;
+	}
+
+	if (a == b) {
+		c = 1;
+	} else if (a < b) {
+		c.remainder = a.digits;
+		c.fractional = b.digits;
+	} else {
+
+	}
+	
+	if (a.isNeg || b.isNeg) c.isNeg = 1;
+	return c;
+}
+
+
+/*
+100/5 = 20
+100/3 = 33 + 1/3
+2/3 = 2/3
+*/
+
+/*
+BigNumber BigNumber::operator+(const BigNumber& a) {
 	//reverse
 	std::string bigTmp;
 	std::string smallTmp;
@@ -133,9 +371,13 @@ BigNumber BigNumber::operator+(BigNumber a) {
 		}
 
 	}
+	return *this;
 }
+*/
+/*
 BigNumber BigNumber::operator+() {
 	isNeg = false;
+	return *this;
 }
 BigNumber BigNumber::operator-(BigNumber a) {
 	// alter the sign
@@ -272,7 +514,38 @@ BigNumber BigNumber::operator-(BigNumber a) {
 		}
 
 	}
+	return *this;
 }
 BigNumber BigNumber::operator-() {
 	isNeg = true;
+	return *this;
+}
+
+*/
+
+BigNumber BigNumber::operator-() {
+	isNeg = true;
+	return *this;
+}
+
+BigNumber BigNumber::factorial() {
+	return *this;
+}
+
+std::ostream& operator<<(std::ostream& os, const BigNumber & num) {
+	if (num.isNeg) os << '-';
+	//os << num.dividend;
+	bool lead = 1;
+	for (int i = Length(num) - 1; i >= 0; i--) {
+		if (num.digits[i] == 0) {
+			if (!lead) {
+				os << num.digits[i];
+			} 
+		} else {
+			os << num.digits[i];
+			lead = 0;
+		}
+	
+	}
+	return os;
 }
