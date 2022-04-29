@@ -1,6 +1,5 @@
 #ifndef _BIG_NUMBER_
 #define _BIG_NUMBER_
-#define ERROR_MSG "Invaild Number"
 #include <iostream>
 #include <istream>
 #include <ostream>
@@ -8,21 +7,11 @@
 #include <string>
 
 class BigNumber {
-private:
-	//std::string dividend;  // if isDec == ture, store integer part
-	//std::string divisor;   // if isDec == ture, store fractional part
-	std::vector<short> digits;
-	std::vector<short> fractional;
-	std::vector<short> remainder;
-	bool isNeg;
-	bool isDec;
-	friend std::string add(std::string, std::string);
-	friend int Length(const BigNumber& a);
-	friend void printError();
 public:
 	BigNumber();
 	BigNumber(std::string);
-	BigNumber(long long nr);
+	BigNumber(int nr);
+	BigNumber(double n);
 	BigNumber(const BigNumber& a);
 
 	//BigNumber operator+(const BigNumber&);
@@ -48,6 +37,24 @@ public:
 	friend BigNumber operator-(const BigNumber& a, const BigNumber& b);
 	friend BigNumber operator*(const BigNumber& a, const BigNumber& b);
 	friend BigNumber operator/(const BigNumber& a, const BigNumber& b);
+
+private:
+	//std::string dividend;  // if isDec == ture, store integer part
+	//std::string divisor;   // if isDec == ture, store fractional part
+	std::vector<short> digits;
+	std::vector<short> fractional;
+	std::vector<short> remainder;
+	bool isNeg;
+	bool isDec;
+
+	friend std::string add(std::string, std::string);
+	friend int Length(const BigNumber& a);
+	friend bool geq(const std::vector<short>& a, const std::vector<short>& b);
+	friend std::vector<short> add(const std::vector<short>& a, const std::vector<short>& b);
+	friend std::vector<short> minus(const std::vector<short>& a, const std::vector<short>& b);
+	friend std::vector<short> mul(const std::vector<short>& a, const std::vector<short>& b);
+	friend std::vector<short> divide(const std::vector<short>& a, const std::vector<short>& b);
+
 };
 
 

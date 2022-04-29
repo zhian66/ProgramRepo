@@ -1,10 +1,12 @@
-#include "BigNumber.h"
+﻿#include "BigNumber.h"
 #include <vector>
+#include <unordered_map>
+#define ERROR_MSG "Invaild Number"
 
 
 BigNumber::BigNumber() {
 	isNeg = 0;
-	//dividend = "0";
+	isDec = 0;
 	digits.push_back(0);
 	fractional.clear();
 	remainder.clear();
@@ -18,13 +20,40 @@ BigNumber::BigNumber(std::string input) {
 		isNeg = 0;
 		//dividend = input;
 	}
-	for (auto c : input) if (c != '-') digits.push_back(c - '0');
-	std::reverse(digits.begin(), digits.end());
-	fractional.clear();
-	remainder.clear();
+	size_t found = input.find_last_of(".");
+	if (found != std::string::npos) {
+		isDec = 1;
+		for (int i = 0; i < found; i++) {
+			char c = input[i];
+			if (c == '-' || c == '.') {}
+			else if (c == ' ') {}
+			else digits.push_back(c - '0');
+		}
+		std::reverse(digits.begin(), digits.end());
+
+		std::string decimal = "";
+		for (int i = found + 1; i < input.size(); i++) {
+			char c = input[i];
+			if (c == '-' || c == '.') {} 
+			else if (c == ' ') {} 
+			else { 
+				decimal += c; 
+			}
+		}
+		std::cout << "decimal: " << decimal << std::endl;
+	} else {
+		isDec = 0;
+		for (auto c : input) if (c != '-') digits.push_back(c - '0');
+		std::reverse(digits.begin(), digits.end());
+		fractional.clear();
+		remainder.clear();
+	}
+
 }
 
-BigNumber::BigNumber(long long nr) {
+BigNumber::BigNumber(int nr) {
+	isDec = 0;
+	isNeg = 0;
 	if (nr < 0) {
 		isNeg = 1;
 		nr *= -1;
@@ -34,7 +63,30 @@ BigNumber::BigNumber(long long nr) {
 		digits.push_back(nr % 10);
 		nr /= 10;
 	} while (nr);
-	std::reverse(digits.begin(), digits.end());
+	fractional.clear();
+	remainder.clear();
+}
+
+BigNumber::BigNumber(double n) {
+	std::cout << "Double:" << std::endl;
+	isDec = 1;
+	isNeg = 0;
+	if (n < 0) {
+		isNeg = 1;
+		n *= -1;
+	}
+	int nr = n;
+	double dec = (n - nr);
+	do {
+		//dividend.push_back(nr % 10);
+		digits.push_back(nr % 10);
+		nr /= 10;
+	} while (nr);
+	std::cout << nr << " " << dec << std::endl;
+	std::string decimal = std::to_string(dec);
+	decimal = decimal.erase(0, decimal.find('.') + 1);
+	std::cout << "decimal: " << decimal << std::endl;
+
 	fractional.clear();
 	remainder.clear();
 }
@@ -42,10 +94,16 @@ BigNumber::BigNumber(long long nr) {
 BigNumber::BigNumber(const BigNumber& a) {
 	//dividend = a.dividend;
 	isNeg = a.isNeg;
+	isDec = a.isDec;
 	digits = a.digits;
 	fractional = a.fractional;
 	remainder = a.remainder;
 }
+
+void printError() {
+	std::cout << ERROR_MSG << std::endl;
+}
+
 
 int Length(const BigNumber& a) {
 	//return a.dividend.size();
@@ -59,9 +117,146 @@ int Length(const BigNumber& a) {
 	return a.digits.size();
 }
 
-void printError() {
-	std::cout << ERROR_MSG << std::endl;
+bool geq(const std::vector<short>& a, const std::vector<short>& b) {
+	if (a.size() > b.size()) return true;
+	else if (a.size() < b.size()) return false;
+	else {
+		for (int i = a.size() - 1; i >= 0; i--) {
+			if (a[i] < b[i]) return false;
+		}
+	}
+	return true;
 }
+
+std::vector<short> add(const std::vector<short>& a, const std::vector<short>& b) {
+	std::vector<short> c;
+	int i = 0, carry = 0;
+	int m = a.size(), n = b.size(), size = m > n ? m + 1 : n + 1;
+	c.resize(size, 0);
+	for (i = 0; i < size; ++i) {
+		if (i < m) c[i] += a[i];
+		if (i < n) c[i] += b[i];
+		if (carry) c[i] += carry;
+		carry = c[i] / 10;
+		c[i] %= 10;
+	}
+	if (carry)
+		c[i] += carry;
+	return c;
+}
+std::vector<short> minus(const std::vector<short>& a, const std::vector<short>& b) {
+	std::vector<short> c;
+	int i = 0, borrow = 0;
+	int m = a.size(), n = b.size(), size = m > n ? m + 1 : n + 1;
+	c.resize(size, 0);
+	for (i = 0; i < size; ++i) {
+		if (i < m) c[i] += a[i];
+		if (i < n) c[i] -= b[i];
+		c[i] -= borrow;
+		if (c[i] < 0) {
+			borrow = 1;
+			c[i] += 10;
+		} else {
+			borrow = 0;
+		}
+	}
+	return c;
+}
+std::vector<short> mul(const std::vector<short>& a, const std::vector<short> & b) {
+	std::vector<short> c;
+	int m = a.size(), n = b.size(), size = m > n ? m : n;
+	c.resize(m+n, 0);
+	int i = 0, j = 0;
+	int carry = 0;
+	for (i = 0; i < m; ++i) {
+		for (j = 0; j < n; ++j)
+			c[i + j] += a[i] * b[j];
+	}
+
+	for (i = 0; i < m + n - 1; ++i) {
+		if (c[i] > 10) {
+			c[i + 1] += c[i] / 10;
+			c[i] %= 10;
+		}
+		carry = c[i] / 10;
+		c[i] %= 10;
+	}
+	return c;
+}
+
+std::vector<short> divide(const std::vector<short>& a, const std::vector<short>& b) {
+	std::vector<short> c(1,0);
+	std::vector<short> tmp;
+	auto x = a;
+	int m = a.size(), n = b.size(), size = m > n ? m : n;
+	while (geq(x, b)) {
+		auto t = b;
+		for (int i = 0; geq(x, c); i++) {
+			x = minus(x, c);
+			for (int j = 0; j < i; j++) {
+				tmp.push_back(0);
+			}
+
+			tmp.push_back(1);
+			c = add(c, tmp);
+			c.insert(c.begin(), 0);
+		}
+	}
+	return c;
+}
+/*
+123 / 3
+123 30 = 40
+(123-120)=3
+3/3 = 1
+3-3 = 0
+
+
+*/
+
+
+/*
+std::string fractionToDecimal(int numerator, int denominator) {
+	long numeratorLong = numerator;
+	long denominatorLong = denominator;
+	if (numeratorLong % denominatorLong == 0) {
+		return std::to_string(numeratorLong / denominatorLong);
+	}
+
+	std::string ans;
+	if (numeratorLong < 0 ^ denominatorLong < 0) {
+		ans.push_back('-');
+	}
+
+	// 整数部分
+	numeratorLong = abs(numeratorLong);
+	denominatorLong = abs(denominatorLong);
+	long integerPart = numeratorLong / denominatorLong;
+	ans += std::to_string(integerPart);
+	ans.push_back('.');
+
+	// 小数部分
+	std::string fractionPart;
+	std::unordered_map<long, int> remainderIndexMap;
+	long remainder = numeratorLong % denominatorLong;
+	int index = 0;
+	while (remainder != 0 && !remainderIndexMap.count(remainder)) {
+		remainderIndexMap[remainder] = index;
+		remainder *= 10;
+		fractionPart += std::to_string(remainder / denominatorLong);
+		remainder %= denominatorLong;
+		index++;
+	}
+	if (remainder != 0) { // 有循环节
+		int insertIndex = remainderIndexMap[remainder];
+		fractionPart = fractionPart.substr(0, insertIndex) + '(' + fractionPart.substr(insertIndex);
+		fractionPart.push_back(')');
+	}
+	ans += fractionPart;
+
+	return ans;
+}
+*/
 
 bool operator<(const BigNumber& a, const BigNumber& b) {
 	int n = Length(a), m = Length(b);
@@ -95,6 +290,7 @@ bool operator<=(const BigNumber& a, const BigNumber& b) {
 }
 bool operator==(const BigNumber& a, const BigNumber& b) {
 	if (a.isNeg != b.isNeg) return false;
+	if (a.isDec != b.isDec) return false;
 	if (Length(a) != Length(b)) {
 		return false;
 	}
@@ -110,6 +306,8 @@ BigNumber operator+(const BigNumber& a, const BigNumber& b) {
 	int m = Length(a), n = Length(b), size = m > n ? m+1 : n+1;
 	c.digits.resize(size, 0);
 	if (!a.isNeg && !b.isNeg) {
+		c.digits = add(a.digits, b.digits);
+		/*
 		for (i = 0; i < size; ++i) {
 			if (i < m) c.digits[i] += a.digits[i];
 			if (i < n) c.digits[i] += b.digits[i];
@@ -119,6 +317,7 @@ BigNumber operator+(const BigNumber& a, const BigNumber& b) {
 		}
 		if (carry) 
 			c.digits[i] += carry;
+		*/
 	} else if (a.isNeg && !b.isNeg) {
 		// a:- b:+
 		BigNumber temp = a;
@@ -148,8 +347,14 @@ BigNumber operator-(const BigNumber& a, const BigNumber& b) {
 	int i = 0, borrow = 0;
 	int m = Length(a), n = Length(b), size = m > n ? m + 1 : n + 1;
 	c.digits.resize(size, 0);
+	if (a == b) {
+		c = 0;
+		return c;
+	}
 	if (!a.isNeg && !b.isNeg) {
 		if (a > b) {
+			c.digits = minus(a.digits, b.digits);
+			/*
 			for (i = 0; i < size; ++i) {
 				if (i < m) c.digits[i] += a.digits[i];
 				if (i < n) c.digits[i] -= b.digits[i];
@@ -161,6 +366,7 @@ BigNumber operator-(const BigNumber& a, const BigNumber& b) {
 					borrow = 0;
 				}
 			}
+			*/
 		} else {
 			c = b - a;
 			c.isNeg = 1;
@@ -189,6 +395,8 @@ BigNumber operator-(const BigNumber& a, const BigNumber& b) {
 
 BigNumber operator*(const BigNumber& a, const BigNumber& b) {
 	BigNumber c;
+	c.digits = mul(a.digits, b.digits);
+	/*
 	int m = Length(a), n = Length(b), size = m > n ? m : n;
 	c.digits.resize(m+n, 0);
 	for (int i = 0; i < m; ++i) {
@@ -202,6 +410,7 @@ BigNumber operator*(const BigNumber& a, const BigNumber& b) {
 			c.digits[i] %= 10;
 		}
 	}
+	*/
 	if (a.isNeg || b.isNeg) c.isNeg = 1;
 	return c;
 }
@@ -223,10 +432,11 @@ BigNumber operator/(const BigNumber& a, const BigNumber& b) {
 	if (a == b) {
 		c = 1;
 	} else if (a < b) {
+		c = 0;
 		c.remainder = a.digits;
 		c.fractional = b.digits;
 	} else {
-
+		c.digits = divide(a.digits, b.digits);
 	}
 	
 	if (a.isNeg || b.isNeg) c.isNeg = 1;
@@ -555,5 +765,6 @@ std::ostream& operator<<(std::ostream& os, const BigNumber & num) {
 		}
 	
 	}
+	if (lead) os << num.digits[0];
 	return os;
 }

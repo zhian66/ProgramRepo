@@ -145,30 +145,44 @@ BigNumber sum() {
 			numStack.push(str);
 		}
 		if (str == "+") {
-			num = numStack.top();
-			numStack.pop();
-			num = num + numStack.top();
-			numStack.pop();
+			if (!numStack.empty()) {
+				num = numStack.top();
+				numStack.pop();
+			}
+			if (!numStack.empty()) {
+				num = num + numStack.top();
+				numStack.pop();
+			}
 			numStack.push(num);
 		}
 		if (str == "-") {
-			num = numStack.top();
-			numStack.pop();
-			num = numStack.top() - num;
-			numStack.pop();
+			if (!numStack.empty()) {
+				num = numStack.top();
+				numStack.pop();
+			}
+			if (!numStack.empty()) {
+				num = numStack.top() - num;
+				numStack.pop();
+			}
 			numStack.push(num);
 		} 
 		if (str == "*") {
-			num = numStack.top();
-			numStack.pop();
-			num = numStack.top() * num;
-			numStack.pop();
+			if (!numStack.empty()) {
+				num = numStack.top();
+				numStack.pop();
+			}
+			if (!numStack.empty()) {
+				num = numStack.top() * num;
+				numStack.pop();
+			}
 			numStack.push(num);
 		} 
 		if (str == "/") {
 			BigNumber empty;
-			num = numStack.top();
-			numStack.pop();
+			if (!numStack.empty()) {
+				num = numStack.top();
+				numStack.pop();
+			}
 			if (num == empty) {
 				cout << "Invaild divide" << endl;
 				notError = 0;
