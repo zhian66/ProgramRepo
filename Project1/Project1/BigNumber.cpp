@@ -768,3 +768,23 @@ std::ostream& operator<<(std::ostream& os, const BigNumber & num) {
 	if (lead) os << num.digits[0];
 	return os;
 }
+
+std::vector<short> gcd(std::vector<short>& a, std::vector<short>& b) {
+	//find their gcd
+	std::vector<short> aTmp, bTmp, tmp;
+	bool isBreak = false;
+	for (int i = 0; i < a.size(); ++i)	aTmp.push_back(a[i]);
+	for (int i = 0; i < b.size(); ++i)	bTmp.push_back(b[i]);
+	while (isBreak != true){
+		//caculate
+		tmp = bTmp;
+		bTmp = minus(bTmp, mul(bTmp, (divide(aTmp, bTmp))));
+		aTmp = tmp;
+		//check if  bTmp != 0
+		for (long long int i = 0; i < bTmp.size(); i++) {
+			if (bTmp[i] != 0)	break;
+			else if (i == bTmp.size() - 1)	isBreak = true;
+		}
+	}
+	return tmp;
+}

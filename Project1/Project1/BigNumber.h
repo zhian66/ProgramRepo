@@ -55,6 +55,7 @@ private:
 	friend std::vector<short> mul(const std::vector<short>& a, const std::vector<short>& b);
 	friend std::vector<short> divide(const std::vector<short>& a, const std::vector<short>& b);
 
+	friend std::vector<short> gcd(std::vector<short>& a, std::vector<short>& b);
 };
 
 
