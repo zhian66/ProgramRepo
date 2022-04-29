@@ -769,7 +769,7 @@ std::ostream& operator<<(std::ostream& os, const BigNumber & num) {
 	return os;
 }
 
-void reductionOfFraction(std::vector<short>& a, std::vector<short>& b) {
+std::vector<short> gcd(std::vector<short>& a, std::vector<short>& b) {
 	//find their gcd
 	std::vector<short> aTmp, bTmp, tmp;
 	bool isBreak = false;
@@ -777,16 +777,14 @@ void reductionOfFraction(std::vector<short>& a, std::vector<short>& b) {
 	for (int i = 0; i < b.size(); ++i)	bTmp.push_back(b[i]);
 	while (isBreak != true){
 		//caculate
-		tmp = b;
+		tmp = bTmp;
 		bTmp = minus(bTmp, mul(bTmp, (divide(aTmp, bTmp))));
-		a = tmp;
+		aTmp = tmp;
 		//check if  bTmp != 0
 		for (long long int i = 0; i < bTmp.size(); i++) {
 			if (bTmp[i] != 0)	break;
 			else if (i == bTmp.size() - 1)	isBreak = true;
 		}
 	}
-	//divide
-	a = divide(a, tmp);
-	b = divide(b, tmp);
+	return tmp;
 }
