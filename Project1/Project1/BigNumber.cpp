@@ -768,3 +768,25 @@ std::ostream& operator<<(std::ostream& os, const BigNumber & num) {
 	if (lead) os << num.digits[0];
 	return os;
 }
+
+void reductionOfFraction(std::vector<short>& a, std::vector<short>& b) {
+	//find their gcd
+	std::vector<short> aTmp, bTmp, tmp;
+	bool isBreak = false;
+	for (int i = 0; i < a.size(); ++i)	aTmp.push_back(a[i]);
+	for (int i = 0; i < b.size(); ++i)	bTmp.push_back(b[i]);
+	while (isBreak != true){
+		//caculate
+		tmp = b;
+		bTmp = minus(bTmp, mul(bTmp, (divide(aTmp, bTmp))));
+		a = tmp;
+		//check if  bTmp != 0
+		for (long long int i = 0; i < bTmp.size(); i++) {
+			if (bTmp[i] != 0)	break;
+			else if (i == bTmp.size() - 1)	isBreak = true;
+		}
+	}
+	//divide
+	a = divide(a, tmp);
+	b = divide(b, tmp);
+}
