@@ -208,12 +208,12 @@ string replaceVar(const string& input) {
 BigNumber sum() {
 	stack<BigNumber> numStack;
 	BigNumber num;
-	/*
+	
 	for (auto n : postfix) {
 		cout << n << " ";
 	}
 	cout << endl;
-	*/
+	
 	
 	
 	for (int i = 0; i < postfix.size(); i++) {
@@ -344,15 +344,16 @@ BigNumber calculate(const string& input) {
 				c = '#';
 			}
 			if (!temp.empty() && temp.top() != '(') {
-				if (priority(temp.top()) >= priority(c)) {
-					string tmp(1, temp.top());
-					postfix.push_back(tmp);
-					temp.pop();
+				if (priority(temp.top()) >= priority(c)) {	// c <= top
+					do {
+						string tmp(1, temp.top());
+						postfix.push_back(tmp);
+						temp.pop();
+					} while (!temp.empty() && priority(temp.top()) >= priority(c));
 					temp.push(c);
 					preNum = false;
-				} else {
-					string tmp(1, c);
-					postfix.push_back(tmp);
+				} else {									// c > top
+					temp.push(c);
 					preNum = false;
 				}
 			} else {

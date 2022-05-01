@@ -263,8 +263,8 @@ void Dec2Fra(const std::string &decimal, std::vector<short> &a, std::vector<shor
 		if (dot) b.push_back(0);
 	}
 	b.push_back(1);
-	movezero(a);
 	std::reverse(a.begin(), a.end());
+	movezero(a);
 }
 void reduction(std::vector<short>& a, std::vector<short>& b) {
 	// a: Numerator  b: denominator
@@ -650,18 +650,19 @@ BigNumber Power(const BigNumber& a, const BigNumber& b) {
 			if (a.isDec) {	// (decimal) ^ decimal
 				if (bTmp.fractional.size() == 1 && bTmp.fractional[0] == 2) {  // sqrt
 					BigNumber up, down;
-					tmp.digits = power(a.digits, b.digits);
-					tmp.fractional = power(a.fractional, b.digits);
+					tmp.digits = power(a.digits, bTmp.digits);
+					tmp.fractional = power(a.fractional, bTmp.digits);
 					Sqrt(tmp.digits, up.digits, up.fractional);
-					if (bTmp.fractional.size() == 1 && bTmp.fractional[0] == 2) Sqrt(tmp.fractional, down.digits, down.fractional);
+					Sqrt(tmp.fractional, down.digits, down.fractional);
 					c.digits = mul(up.digits, down.fractional);
 					c.fractional = mul(up.fractional, down.digits);
+					reduction(c.digits, c.fractional);
 				} else {
-					c.digits = power(a.digits, b.digits);
-					c.fractional = power(a.fractional, b.digits);
+					c.digits = power(a.digits, bTmp.digits);
+					c.fractional = power(a.fractional, bTmp.digits);
 				}
 			} else {		// (int) ^ decimal
-				tmp.digits = power(a.digits, b.digits);
+				tmp.digits = power(a.digits, bTmp.digits);
 				Sqrt(a.digits, c.digits, c.fractional);
 			}
 		} else { // a^(int)
@@ -680,32 +681,7 @@ BigNumber Power(const BigNumber& a, const BigNumber& b) {
 				c.digits = power(a.digits, b.digits);
 			}
 		}
-		/*
-		std::cout << "up.d:\n";
-		for (int i = up.digits.size() - 1; i >= 0; i--) {
-			std::cout << up.digits[i];
-		}
-		std::cout << "\n";
-
-		std::cout << "up.f:\n";
-		for (int i = up.fractional.size() - 1; i >= 0; i--) {
-			std::cout << up.fractional[i];
-		}
-		std::cout << "\n";
-
-		std::cout << "down.d:\n";
-		for (int i = down.digits.size() - 1; i >= 0; i--) {
-			std::cout << down.digits[i];
-		}
-		std::cout << "\n";
-
-		std::cout << "down.f:\n";
-		for (int i = down.fractional.size() - 1; i >= 0; i--) {
-			std::cout << down.fractional[i];
-		}
-		std::cout << "\n";
-		*/
-
+		
 	} else {
 		tmp = b;
 		tmp.isNeg = 0;
