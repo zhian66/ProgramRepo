@@ -208,11 +208,12 @@ string replaceVar(const string& input) {
 BigNumber sum() {
 	stack<BigNumber> numStack;
 	BigNumber num;
-	
+	/*
 	for (auto n : postfix) {
 		cout << n << " ";
 	}
 	cout << endl;
+	*/
 	
 	
 	
