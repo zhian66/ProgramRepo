@@ -6,13 +6,14 @@ using namespace std;
 
 bool checkParentheses(const string& input);
 bool checkVaildChar(const string& input);
+bool checkCanCal(const string& input);
 
 bool isSetInt(const string& input);
 bool isSetDec(const string& input);
 
-
 BigNumber sum();
 BigNumber calculate(const string& input);
+string replaceVar(const string& input);
 
 vector<string> postfix;
 vector<pair<string, BigNumber>> varList;
@@ -25,6 +26,7 @@ int main() {
 	vector<short> a, b, c;
 	while (getline(cin, input)) {
 		notError = 1;
+		string cal;
 		// input error
 		if (input[0] == NULL) {
 			cout << "Input should not be empty." << endl;
@@ -40,24 +42,74 @@ int main() {
 			cout << "Invaild character." << endl;
 			continue;
 		}
-
 		postfix.clear();
+		
 
 		// Set Integer/Decimal A
-		if (isSetInt(input) || isSetDec(input)) {
+		if (isSetInt(input)) {
 			string var;
 			size_t found = input.find('=');
 			if (found != std::string::npos) {
-				var = input.substr(11, found-11);
+				if (found - 12 > 0) var = input.substr(12, found - 12);
+				else {
+					cout << "Invaild Variable" << endl;
+					continue;
+				}
+
 				if (var[var.size() - 1] == ' ') var.erase(var.size() - 1);
+				BigNumber num = input.substr(found + 1);
+				num.Int();
+				bool exist = 0;
+				for (auto& v : varList) {
+					if (v.first == var) {
+						exist = 1;
+						v.second = num;
+					}
+				}
+				if (!exist) {
+					varList.push_back(make_pair(var, num));
+				}
+			} else {
+				notError = 0;
 			}
-			BigNumber num = input.substr(found + 1);
-			varList.push_back(make_pair(var, num));
+			continue;
+
+		} else if (isSetDec(input)){
+			string var;
+			size_t found = input.find('=');
+			if (found != std::string::npos) {
+				if (found - 12 > 0) var = input.substr(12, found - 12);
+				else {
+					cout << "Invaild Variable" << endl;
+					continue;
+				}
+				if (var[var.size() - 1] == ' ') var.erase(var.size() - 1);
+				BigNumber num = input.substr(found + 1);
+				num.Dec();
+				bool exist = 0;
+				for (auto& v : varList) {
+					if (v.first == var) {
+						exist = 1;
+						v.second = num;
+					}
+				}
+				if (!exist) {
+					varList.push_back(make_pair(var, num));
+				}
+			} else {
+				notError = 0;
+			}
+			continue;
+		} else {
+			cal = replaceVar(input);
+			if (!checkCanCal(cal)) {
+				notError = 0;
+			}
 		}
 
 		if (notError) {
-			BigNumber result = calculate(input);
-			if (notError) cout << "Answer = " << result << endl;
+			BigNumber result = calculate(cal);
+			if (!result.Invaild && notError) cout << "Answer = " << result << endl;
 		} else {
 			cout << "Error-in-variable" << endl;
 		}
@@ -78,6 +130,17 @@ bool checkParentheses(const string& input) {
 
 bool checkVaildChar(const string& input) {
 	string vaildStr = "0123456789()+-*/=!.^abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+	for (char c : input) {
+		size_t found = vaildStr.find(c);
+		if (found == string::npos) {
+			return false;
+		}
+	}
+	return true;
+}
+
+bool checkCanCal(const string& input) {
+	string vaildStr = "0123456789()+-*/=!.^ ";
 	for (char c : input) {
 		size_t found = vaildStr.find(c);
 		if (found == string::npos) {
@@ -121,7 +184,7 @@ bool isNum(string input) {
 }
 
 bool isOper(string s) {
-	string operStr = "+-*/=!^";
+	string operStr = "+-*/=!^#~";
 	size_t found = operStr.find(s);
 	if (found == string::npos) {
 		return false;
@@ -129,20 +192,35 @@ bool isOper(string s) {
 	return true;
 }
 
+string replaceVar(const string& input) {
+	string result = input;
+	for (auto var : varList) {
+		size_t found = result.find(var.first);
+		while (found != string::npos) {
+			result.replace(found, var.first.size(), var.second.to_string());
+			found = result.find(var.first);
+		}
+	}
+	return result;
+}
+
+
 BigNumber sum() {
 	stack<BigNumber> numStack;
 	BigNumber num;
-	
+	/*
 	for (auto n : postfix) {
 		cout << n << " ";
 	}
 	cout << endl;
+	*/
 	
 	
 	for (int i = 0; i < postfix.size(); i++) {
 		string str = postfix[i];
 		if (isNum(str)) {
 			numStack.push(str);
+			continue;
 		}
 		if (str == "+") {
 			if (!numStack.empty()) {
@@ -188,21 +266,38 @@ BigNumber sum() {
 				notError = 0;
 				break;
 			}
-			num = numStack.top() / num;
-			numStack.pop();
+			if (!numStack.empty()) {
+				num = numStack.top() / num;
+				numStack.pop();
+			}
 			numStack.push(num);
 		} 
 		if (str == "^") {
-			num = numStack.top();
-			numStack.pop();
-			num = Power(num, numStack.top());
-			numStack.pop();
+			if (!numStack.empty()) {
+				num = numStack.top();
+				numStack.pop();
+			}
+			if (!numStack.empty()) {
+				num = Power(numStack.top(), num);
+				numStack.pop();
+			}
 			numStack.push(num);
 		}
 		if (str == "!") {
-			num = factorial(numStack.top());
-			numStack.pop();
+			if (!numStack.empty()) {
+				num = factorial(numStack.top());
+				numStack.pop();
+			}
 			numStack.push(num);
+		}
+		if (str == "~") {
+			if (!numStack.empty()) {
+				num = -numStack.top();
+				numStack.pop();
+			}
+			numStack.push(num);
+		}
+		if (str == "#") {
 		}
 	}
 	
@@ -213,8 +308,7 @@ int priority(char op) {
 	switch (op) {
 	case '+': case '-': return 1;
 	case '*': case '/': return 2;
-	case '^': return 3;
-	case '!': return 4;
+	case '^': case '!': case '#': case '~': return 3;
 	default:            return 0;
 	}
 }
@@ -243,13 +337,14 @@ BigNumber calculate(const string& input) {
 			str = "";
 		}
 
-		int pri_c = priority(c);
-		if (pri_c > 0) {
+		if (priority(c) > 0) {
 			if (c == '-' && !preNum) {
-				postfix.push_back("0");
+				c = '~';
+			} else if (c == '+' && !preNum) {
+				c = '#';
 			}
 			if (!temp.empty() && temp.top() != '(') {
-				if (priority(temp.top()) >= pri_c) {
+				if (priority(temp.top()) >= priority(c)) {
 					string tmp(1, temp.top());
 					postfix.push_back(tmp);
 					temp.pop();
@@ -263,6 +358,7 @@ BigNumber calculate(const string& input) {
 			} else {
 				temp.push(c);
 			}
+			preNum = false;
 		}
 
 		if (c == '(') {
