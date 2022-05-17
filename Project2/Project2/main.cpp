@@ -1,27 +1,26 @@
 #include <iostream>
 #include <string>
-#include <SFML/Graphics.hpp>
 #include "Button.h"
-
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1200, 800), "Chinese Chess"); // Window's width size, Window's height size, titile
-    
+    //window.clear(sf::Color{ 217, 207, 148, 1 }); // without checking
+
     Button startButton;
     startButton.app = &window;
-    startButton.setTexture("picture.png"); // Can Changing: Please save the Picture in Texture Folder
+    startButton.setTexture("StartButton.png"); // Can Changing: Please save the Picture in Texture Folder
     // startButton.setText("Start Game"); // Not Working
     startButton.setPosition(500, 400, 200, 80); // start x, start y, width, height 
 
     Button ReadButton;
     ReadButton.app = &window;
-    ReadButton.setTexture("picture.png"); // Can Changing: Please save the Picture in Texture Folder
+    ReadButton.setTexture("ReadButton.png"); // Can Changing: Please save the Picture in Texture Folder
     // ReadButton.setText("Read Game"); // Not Working
     ReadButton.setPosition(500, 510, 200, 80);  // start x, start y, width, height 
 
     Button EndButton;
     EndButton.app = &window;
-    EndButton.setTexture("picture.png"); // Can Changing: Please save the Picture in Texture Folder
+    EndButton.setTexture("EndButton.png"); // Can Changing: Please save the Picture in Texture Folder
     //EndButton.setText("End Game"); // Not Working
     EndButton.setPosition(500, 620, 200, 80);  // start x, start y, width, height 
 
