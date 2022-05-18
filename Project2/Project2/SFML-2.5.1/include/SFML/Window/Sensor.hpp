@@ -28,9 +28,9 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Window/Export.hpp>
-#include <SFML/System/Vector3.hpp>
-#include <SFML/System/Time.hpp>
+#include ".\SFML-2.5.1\include\SFML\Window\Export.hpp"
+#include ".\SFML-2.5.1\include\SFML\System\Vector3.hpp"
+#include ".\SFML-2.5.1\include\SFML\System\Time.hpp"
 
 
 namespace sf

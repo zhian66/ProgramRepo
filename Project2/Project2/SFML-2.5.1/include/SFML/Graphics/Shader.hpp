@@ -28,12 +28,12 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Graphics/Export.hpp>
-#include <SFML/Graphics/Glsl.hpp>
-#include <SFML/Window/GlResource.hpp>
-#include <SFML/System/NonCopyable.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/System/Vector3.hpp>
+#include ".\SFML-2.5.1\include\SFML\Graphics\Export.hpp"
+#include ".\SFML-2.5.1\include\SFML\Graphics\Glsl.hpp"
+#include ".\SFML-2.5.1\include\SFML\Window\GlResource.hpp"
+#include ".\SFML-2.5.1\include\SFML\System\NonCopyable.hpp"
+#include ".\SFML-2.5.1\include\SFML\System\Vector2.hpp"
+#include ".\SFML-2.5.1\include\SFML\System\Vector3.hpp"
 #include <map>
 #include <string>
 
