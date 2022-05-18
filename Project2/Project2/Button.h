@@ -25,6 +25,5 @@ public:
     void setPressedStatus(bool flag);
     void show();
     bool onClick(sf::Event& e);
-
 };
 
