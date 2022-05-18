@@ -23,13 +23,13 @@ void Button::setText(sf::String str, float size, sf::String Fontpath) {
     }
     font.loadFromFile(Fontpath);
     text.setFont(font);
-   
+
     text.setString(str);
     text.setCharacterSize(size);
     text.setFillColor(sf::Color::Yellow);
     text.setStyle(sf::Text::Bold);
     text.setPosition(0, 0);
-    
+
 }
 
 void Button::setActive(bool flag) {
@@ -57,15 +57,17 @@ bool Button::onClick(sf::Event& e) {
             if (e.type == sf::Event::MouseButtonReleased && e.key.code == sf::Mouse::Left && isPressed) {
                 isPressed = false; // Button must be pressed and released than return true
                 flag = true;
-            } else 
+            }
+            else
                 flag = false;
-        
+
             if (e.type == sf::Event::MouseButtonPressed && e.key.code == sf::Mouse::Left) {
                 button.setColor(sf::Color(125, 125, 100, 100)); // Set color of the pressed button
                 isPressed = true;
-            } else
+            }
+            else
                 button.setColor(sf::Color(125, 125, 125, 255)); // Set button being pointed yet pressed
-            
+
         }
     }
     else
@@ -73,3 +75,14 @@ bool Button::onClick(sf::Event& e) {
 
     return flag;
 }
+
+/*
+void midTextvoid(sf::Vector2f pos) {
+    button.setPosition(pos);
+
+    float pos_x = (pos.x + button.getGlobalBounds().width / 3.0f) -
+        (text.getGlobalBounds().width / 2);
+    float pos_y = (pos.y + button.getGlobalBounds().height / 3.0f) -
+        (text.getGlobalBounds().height / 2);
+    text.setPosition(pos_x, pos_y);
+}*/
