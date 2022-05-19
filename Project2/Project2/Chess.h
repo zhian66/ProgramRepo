@@ -1,4 +1,5 @@
 //  Created by RinKawano
+#include <iostream>
 
 #ifndef Chess_h
 #define Chess_h

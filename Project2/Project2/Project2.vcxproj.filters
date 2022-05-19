@@ -30,6 +30,30 @@
     <ClCompile Include="Board.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="Cannon.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Chess.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Guard.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Horse.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="King.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Minister.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Pawn.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Rook.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Viewer.h">
@@ -42,6 +66,12 @@
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="Board.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="SFML-2.5.1\include\SFML\Graphics.hpp">
+      <Filter>資源檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Chess.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
