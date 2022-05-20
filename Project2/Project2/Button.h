@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+
 #include <SFML/Graphics.hpp>
 
 class Button {
@@ -27,5 +28,6 @@ public:
     bool onClick(sf::Event& e);
 
     //void midTextvoid(sf::Vector2f pos);
+
 };
 
