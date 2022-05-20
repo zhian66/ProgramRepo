@@ -14,7 +14,7 @@ Board::Board() {
 }
 
 Board::Board(const Board& brd) {
-    board = brd;
+    board = brd.board;
 }
 
 Board::~Board() {
@@ -22,7 +22,7 @@ Board::~Board() {
 }
 
 Board& Board::operator= (const Board& brd) {
-    board = brd;
+    board = brd.board;
     return *this;
 }
 
