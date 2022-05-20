@@ -1,4 +1,4 @@
-#pragma oncef
+#pragma once
 #include <vector>
 #include "Viewer.h"
 #include "Board.h"
