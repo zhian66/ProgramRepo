@@ -19,6 +19,11 @@ Guard::Guard(const std::pair<int, int>& Pos) {
     pos = Pos;
 }
 
+Guard::Guard(const int& X, const int& Y, int color) {
+    pos = std::make_pair(X, Y);
+    this->color = color;
+}
+
 Guard::~Guard() {
     
 }

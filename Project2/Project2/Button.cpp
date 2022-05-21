@@ -13,7 +13,6 @@ void Button::setPosition(int px, int py, int sx, int sy) {
     this->px = px;
     this->py = py;
     button.setPosition(px, py);
-    button.setTextureRect(sf::IntRect(px, py, sx, sy));
 }
 
 void Button::setText(sf::String str, float size, sf::String Fontpath) {

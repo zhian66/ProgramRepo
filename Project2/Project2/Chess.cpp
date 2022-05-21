@@ -16,6 +16,12 @@ Chess::Chess(const std::pair<int, int>& Pos) {
     pos = Pos;
 }
 
+Chess::Chess(const int& X, const int& Y, int color) {
+    pos = std::make_pair(X, Y);
+    this->color = color;
+}
+
+
 Chess::~Chess() {
     
 }
