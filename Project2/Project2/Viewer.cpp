@@ -80,14 +80,14 @@ void Viewer::printMenu() {
     }
 }
 
-void Viewer::updateGame() {
+void Viewer::updateGame(Board& board) {
     sf::Texture texture;
-    sf::Sprite board;
+    sf::Sprite sprite;
     if (!texture.loadFromFile("Texture/ChessBoard.png", sf::IntRect(0, 0, 700, 800))) {
         std::cout << "Board Set Texture Faild\n";
     }
-    board.setTexture(texture);
-    board.setPosition(250, 0);
+    sprite.setTexture(texture);
+    sprite.setPosition(250, 0);
 
     while (window->isOpen()) {
         while (window->pollEvent(event)) {
@@ -102,13 +102,20 @@ void Viewer::updateGame() {
                     std::cout << "mouse x: " << event.mouseButton.x << std::endl;
                     std::cout << "mouse y: " << event.mouseButton.y << std::endl;
                 }
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    for (int i = 0; i < 10; i++) {
+                        for (int j = 0; j < 9; j++) {
+                            if 
+                        }
+                    }
+                }
                 break;
             }
 
         }
 
         window->clear(sf::Color::White);
-        window->draw(board);
+        window->draw(sprite);
         window->display();
     }
 }
