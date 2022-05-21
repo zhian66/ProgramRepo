@@ -4,21 +4,17 @@
 
 int main() {
     GameManager GM;
-    while (GM.isRunning()) {        // if the window is opened
+    while (GM.isRunning()) {
         switch (GM.getStatus()) {
-            case 0:                     // defult menu
-                GM.menu();
-                break;
-            case 1:                     // new game
-                GM.initGame();
-                GM.playGame();
-                break;
-            case 2:                     // load game
-                GM.loadGame();
-                GM.playGame();
-                break;
-            default:
-                break;
+        case 0:
+            GM.menu();
+            GM.playGame(); break;
+        case 1:
+            GM.initGame();
+            GM.playGame(); break;
+        case 2:
+            GM.LoadGame();
+            GM.playGame(); break;
         }
     }
     return 0;

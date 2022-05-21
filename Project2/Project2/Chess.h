@@ -8,7 +8,7 @@
 class Chess {
 public:
     std::pair<int, int> pos;
-    int color;                                                  // 'Blue' or 'Red'
+    int color;                                                  // 0:Blue or 1:Red
     Chess();
     Chess(const Chess& piece);                                  // copy constructor
     Chess(const int& X, const int& Y);                          // construct by setting position

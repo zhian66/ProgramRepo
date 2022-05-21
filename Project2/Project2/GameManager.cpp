@@ -2,7 +2,7 @@
 
 GameManager::GameManager() {
 	current_player = 1;
-    currStatus = 0;
+	currStatus = 0;
 }
 
 void GameManager::menu() {
