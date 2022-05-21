@@ -7,8 +7,9 @@
 
 class Chess {
 public:
-    std::pair<int, int> pos;
-    int color;                                                  // 0:Blue or 1:Red
+    std::pair<int, int> pos;                                    // default is (0, 0)
+    int color;                                                  // 0:Blue or 1:Red 2: none
+    bool isActive;                                              // default is false
     Chess();
     Chess(const Chess& piece);                                  // copy constructor
     Chess(const int& X, const int& Y);                          // construct by setting position
@@ -22,6 +23,7 @@ public:
     void go(const std::pair<int, int>& pos);                    // go to the position
     void stay();                                                // do not move
     void kick();                                                // kick the opponent
+    bool inEnemy();                                             // if you are in the enemy area
 };
 
 class King : public Chess {

@@ -1,27 +1,31 @@
 #include "Chess.h"
 
 Rook::Rook() {
-    //  how do you know if it is player1 or not?
-    if(Player1) pos = std::make_pair(0, 9);
-    else pos = std::make_pair(0, 0);
-    //  how do you deal with X?
+    
 }
 
 Rook::Rook(const Rook& rook) {
     pos = rook.pos;
+    color = rook.color;
+    isActive = rook.isActive;
 }
 
 Rook::Rook(const int& X, const int& Y) {
     pos = std::make_pair(X, Y);
+    color = 2;
+    isActive = false;
 }
 
 Rook::Rook(const std::pair<int, int>& Pos) {
     pos = Pos;
+    color = 2;
+    isActive = false;
 }
 
 Rook::Rook(const int& X, const int& Y, int color) {
     pos = std::make_pair(X, Y);
     this->color = color;
+    isActive = true;
 }
 
 Rook::~Rook() {
@@ -30,6 +34,8 @@ Rook::~Rook() {
 
 Rook& Rook::operator= (const Rook& rook) {
     pos = rook.pos;
+    color = rook.color;
+    isActive = rook.isActive;
     return *this;
 }
 
