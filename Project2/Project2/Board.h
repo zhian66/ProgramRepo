@@ -5,19 +5,24 @@
 
 #include <array>
 #include <utility>
+#include <string>
 #include "Chess.h"
-using namespace std;
 
 class Board {
 private:
-    array<array<Chess&, 10>, 9> board;   // player_1 will be down side, and player_2 will be upper side
-    
+    std::vector<std::vector<Chess>> board;   // player_1 will be down side, and player_2 will be upper side
+    std::vector<std::vector<bool>> isChess;
+    std::vector<std::vector<std::string>> nameTable;
+
 public:
     Board();
     Board(const Board& brd);
     ~Board();
     Board& operator= (const Board& brd);
-    std::pair<int, int> posChanging(std::pair<int, int> pos);
+
+    void initBoard();
+    std::pair<int, int> posChanging(int x, int y);
+
 };
 
 #endif /* Board_h */
