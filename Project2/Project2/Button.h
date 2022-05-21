@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include ".\SFML-2.5.1\include\SFML\Graphics.hpp"
+
+#include <SFML/Graphics.hpp>
 
 class Button {
 protected:
@@ -25,5 +26,8 @@ public:
     void setPressedStatus(bool flag);
     void show();
     bool onClick(sf::Event& e);
+
+    //void midTextvoid(sf::Vector2f pos);
+
 };
 

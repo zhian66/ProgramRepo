@@ -5,7 +5,14 @@
 int main() {
     GameManager GM;
     while (GM.isRunning()) {
-        GM.menu();
+        switch (GM.getStatus()) {
+        case 0:
+            GM.menu();
+            GM.playGame(); break;
+        case 1:
+            GM.initGame();
+            GM.playGame(); break;
+        }
     }
     return 0;
 }

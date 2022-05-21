@@ -1,5 +1,3 @@
-//  Created by RinKawano
-
 #include "Board.h"
 
 Board::Board() {
@@ -25,4 +23,3 @@ Board& Board::operator= (const Board& brd) {
     board = brd.board;
     return *this;
 }
-

@@ -18,6 +18,11 @@ King::King(const std::pair<int, int>& Pos) {
     pos = Pos;
 }
 
+King::King(const int& X, const int& Y, int color) {
+    pos = std::make_pair(X, Y);
+    this->color = color;
+}
+
 King::~King() {
     
 }
