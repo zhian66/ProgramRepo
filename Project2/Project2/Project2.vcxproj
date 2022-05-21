@@ -171,9 +171,6 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Button.cpp" />
 
-    <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="main.cpp" />
-
     <ClCompile Include="Cannon.cpp" />
     <ClCompile Include="Chess.cpp" />
     <ClCompile Include="GameManager.cpp" />
