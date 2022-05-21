@@ -19,8 +19,13 @@ void GameManager::playGame() {
 
 }
 
+bool GameManager::LoadGame() {
+    
+}
 
-
+void GameManager::playGame() {
+    
+}
 
 const bool GameManager::isRunning() const {
 	return viewer.isRunning();
