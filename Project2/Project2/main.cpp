@@ -12,6 +12,9 @@ int main() {
         case 1:
             GM.initGame();
             GM.playGame(); break;
+        case 2:
+            GM.LoadGame();
+            GM.playGame(); break;
         }
     }
     return 0;
