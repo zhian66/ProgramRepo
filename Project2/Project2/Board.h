@@ -17,6 +17,7 @@ public:
     Board(const Board& brd);
     ~Board();
     Board& operator= (const Board& brd);
+    std::pair<int, int> posChanging(std::pair<int, int> pos);
 };
 
 #endif /* Board_h */

@@ -23,3 +23,12 @@ Board& Board::operator= (const Board& brd) {
     board = brd.board;
     return *this;
 }
+
+std::pair<int, int> Board::posChanging(std::pair<int, int> pos) {
+	std::pair<int, int> ansPos = { 0, 0 };
+	int a[8] = { 283, 360, 441, 521, 600, 759, 838, 917 };
+	int b[10] = { 35, 118, 200, 282, 364, 447, 529, 611, 694, 775 };
+	ansPos.first = a[pos.first];
+	ansPos.second = b[pos.second];
+	return ansPos;
+}
