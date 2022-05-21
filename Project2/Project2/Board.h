@@ -10,7 +10,7 @@ using namespace std;
 
 class Board {
 private:
-    array<array<Chess, 10>, 9> board;   // player_1 will be down side, and player_2 will be upper side
+    array<array<Chess&, 10>, 9> board;   // player_1 will be down side, and player_2 will be upper side
     
 public:
     Board();

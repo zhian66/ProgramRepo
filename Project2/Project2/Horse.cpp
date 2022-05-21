@@ -38,7 +38,7 @@ Horse& Horse::operator= (const std::pair<int, int>& Pos) {
     return *this;
 }
 
-std::vector<std::pair<int, int>>& Horse::getSuggestion() {
+std::vector<std::pair<int, int>>& Horse::getSuggestion() override {
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
     {

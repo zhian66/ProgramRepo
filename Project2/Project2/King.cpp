@@ -37,7 +37,7 @@ King& King::operator= (const std::pair<int, int>& Pos) {
     return *this;
 }
 
-std::vector<std::pair<int, int>>& King::getSuggestion() {
+std::vector<std::pair<int, int>>& King::getSuggestion() override {
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
     if(pos.second != 0 && pos.second != 7) {    // up

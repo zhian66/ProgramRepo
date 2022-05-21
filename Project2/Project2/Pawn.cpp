@@ -38,7 +38,7 @@ Pawn& Pawn::operator= (const std::pair<int, int>& Pos) {
     return *this;
 }
 
-std::vector<std::pair<int, int>>& Pawn::getSuggestion() {
+std::vector<std::pair<int, int>>& Pawn::getSuggestion() override {
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
     //  how do you know if it is player1 or not?
