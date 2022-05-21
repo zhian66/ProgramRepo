@@ -104,6 +104,7 @@ void Viewer::updateGame() {
                 }
                 break;
             }
+
         }
 
         window->clear(sf::Color::White);

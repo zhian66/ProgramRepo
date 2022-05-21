@@ -17,5 +17,4 @@ private:
 	friend void setIcon(sf::RenderWindow& window);
 	sf::RenderWindow* window;
 	sf::Event event;
-
 };

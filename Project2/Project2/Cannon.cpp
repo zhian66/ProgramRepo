@@ -16,6 +16,11 @@ Cannon::Cannon(const std::pair<int, int>& Pos) {
     pos = Pos;
 }
 
+Cannon::Cannon(const int& X, const int& Y, int color) {
+    pos = std::make_pair(X, Y);
+    this->color = color;
+}
+
 Cannon::~Cannon() {
     
 }
