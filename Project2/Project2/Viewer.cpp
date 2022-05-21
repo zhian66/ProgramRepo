@@ -7,6 +7,12 @@ void setIcon(sf::RenderWindow& window) {
     } else
         window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 }
+/*
+std::pair<int, int> convertXY(int x, int y) {
+    
+}
+ */
+
 
 Viewer::Viewer() {
     sf::VideoMode videoMode(1200, 800);
@@ -89,6 +95,14 @@ void Viewer::updateGame(Board& board) {
     sprite.setTexture(texture);
     sprite.setPosition(250, 0);
 
+    sf::Sprite king;
+    if (!texture.loadFromFile("Texture/¬õ«Ó.png", sf::IntRect(0, 0, 530, 530))) {
+        std::cout << "Board Set Texture Faild\n";
+    }
+    king.setTexture(texture);
+    king.setPosition(250, 0);
+    
+
     while (window->isOpen()) {
         while (window->pollEvent(event)) {
             switch (event.type) {
@@ -103,11 +117,8 @@ void Viewer::updateGame(Board& board) {
                     std::cout << "mouse y: " << event.mouseButton.y << std::endl;
                 }
                 if (event.mouseButton.button == sf::Mouse::Left) {
-                    for (int i = 0; i < 10; i++) {
-                        for (int j = 0; j < 9; j++) {
-                            if 
-                        }
-                    }
+                    int x = event.mouseButton.x;
+                    int y = event.mouseButton.y;
                 }
                 break;
             }
@@ -116,6 +127,7 @@ void Viewer::updateGame(Board& board) {
 
         window->clear(sf::Color::White);
         window->draw(sprite);
+        window->draw(king);
         window->display();
     }
 }
@@ -123,3 +135,4 @@ void Viewer::updateGame(Board& board) {
 const bool Viewer::isRunning() const {
     return window->isOpen();
 }
+

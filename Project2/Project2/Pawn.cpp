@@ -46,7 +46,7 @@ Pawn& Pawn::operator= (const std::pair<int, int>& Pos) {
     return *this;
 }
 
-std::vector<std::pair<int, int>>& Pawn::getSuggestion() override {
+std::vector<std::pair<int, int>>& Pawn::getSuggestion(){
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
     if(pos.second != 0 && color == 0) {    // up

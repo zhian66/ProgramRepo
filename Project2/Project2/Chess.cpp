@@ -37,8 +37,8 @@ Chess::~Chess() {
 
 Chess& Chess::operator= (const Chess& piece) {
     pos = piece.pos;
-    pos = piece.color;
-    pos = piece.isActive;
+    color = piece.color;
+    isActive = piece.isActive;
     return *this;
 }
 
@@ -66,7 +66,7 @@ void Chess::kick() {
     return;
 }
 
-bool Chess:inEnemy() {
+bool Chess::inEnemy() {
     if(color == 0) {
         if(0 <= pos.first && pos.first <= 8) {
             if(0 <= pos.second && pos.second <= 4) return true;

@@ -44,7 +44,7 @@ Guard& Guard::operator= (const std::pair<int, int>& Pos) {
     return *this;
 }
 
-std::vector<std::pair<int, int>>& Guard::getSuggestion() override {
+std::vector<std::pair<int, int>>& Guard::getSuggestion(){
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
     {

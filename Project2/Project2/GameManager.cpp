@@ -21,7 +21,7 @@ void GameManager::playGame() {
 }
 
 bool GameManager::LoadGame() {
-    
+	return false;
 }
 
 const bool GameManager::isRunning() const {

@@ -44,7 +44,7 @@ Rook& Rook::operator= (const std::pair<int, int>& Pos) {
     return *this;
 }
 
-std::vector<std::pair<int, int>>& Rook::getSuggestion() override {
+std::vector<std::pair<int, int>>& Rook::getSuggestion(){
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
     for(int Y = pos.second; Y >= 0; Y--) {  // up
