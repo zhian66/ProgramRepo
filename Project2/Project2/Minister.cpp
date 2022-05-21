@@ -1,19 +1,21 @@
 #include "Chess.h"
 
 Minister::Minister() {
-    
+    id = 3;
 }
 
 Minister::Minister(const Minister& minister) {
     pos = minister.pos;
     color = minister.color;
     isActive = minister.isActive;
+    id = minister.id;
 }
 
 Minister::Minister(const int& X, const int& Y) {
     pos = std::make_pair(X, Y);
     color = 2;
     isActive = false;
+    id = 3;
 }
 
 Minister::Minister(const std::pair<int, int>& Pos) {
@@ -26,6 +28,7 @@ Minister::Minister(const int& X, const int& Y, int color) {
     pos = std::make_pair(X, Y);
     this->color = color;
     isActive = true;
+    id = 3;
 }
 
 Minister::~Minister() {
@@ -36,6 +39,7 @@ Minister& Minister::operator= (const Minister& minister) {
     pos = minister.pos;
     color = minister.color;
     isActive = minister.isActive;
+    id = minister.id;
     return *this;
 }
 
@@ -43,7 +47,7 @@ Minister& Minister::operator= (const std::pair<int, int>& Pos) {
     pos = Pos;
     return *this;
 }
-
+/*
 std::vector<std::pair<int, int>>& Minister::getSuggestion(){
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
@@ -77,3 +81,4 @@ std::vector<std::pair<int, int>>& Minister::getSuggestion(){
     }
     return sugList;
 }
+*/

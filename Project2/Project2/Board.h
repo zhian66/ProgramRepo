@@ -10,8 +10,6 @@
 
 class Board {
 private:
-    std::vector<std::vector<Chess>> board;   // player_1 will be down side, and player_2 will be upper side
-    std::vector<std::vector<bool>> isChess;
     std::vector<std::vector<std::string>> nameTable;
 
 public:
@@ -20,9 +18,10 @@ public:
     ~Board();
     Board& operator= (const Board& brd);
 
-    void initBoard();
+    std::vector<Chess> initBoard();
     std::pair<int, int> posChanging(int x, int y);
 
+    std::vector<std::vector<Chess>> board;   // player_1 will be down side, and player_2 will be upper side
 };
 
 #endif /* Board_h */

@@ -10,6 +10,7 @@ Chess::Chess(const Chess& piece) {
     pos = piece.pos;
     color = piece.color;
     isActive = piece.isActive;
+    id = piece.id;
 }
 
 Chess::Chess(const int& X, const int& Y) {
@@ -39,6 +40,7 @@ Chess& Chess::operator= (const Chess& piece) {
     pos = piece.pos;
     color = piece.color;
     isActive = piece.isActive;
+    id = piece.id;
     return *this;
 }
 

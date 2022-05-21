@@ -7,11 +7,22 @@ void setIcon(sf::RenderWindow& window) {
     } else
         window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 }
-/*
-std::pair<int, int> convertXY(int x, int y) {
+
+std::pair<int, int> Board2Pixel(int x, int y) {   // Convert board x-y to windows x-y(pixel)
+    int convertX = 265 + y * 76;
+    int convertY = 5 + x * 80;
+    return std::pair<int, int>{convertX, convertY};
+}
+ 
+int isChess() {
     
 }
- */
+
+std::pair<int, int> Pixel2Board(int x, int y) {     // Convert windows x-y(pixel) to board x-y
+    int convertX = 265 + y * 76;
+    int convertY = 5 + x * 80;
+    return std::pair<int, int>{convertX, convertY};
+}
 
 
 Viewer::Viewer() {
@@ -86,23 +97,32 @@ void Viewer::printMenu() {
     }
 }
 
-void Viewer::updateGame(Board& board) {
+void Viewer::updateGame(const Board& board) {
     sf::Texture texture;
     sf::Sprite sprite;
-    if (!texture.loadFromFile("Texture/ChessBoard.png", sf::IntRect(0, 0, 700, 800))) {
+    if (!texture.loadFromFile("Texture/ChessBoard.png", sf::IntRect(0, 0, 700, 785))) {
         std::cout << "Board Set Texture Faild\n";
     }
     sprite.setTexture(texture);
     sprite.setPosition(250, 0);
 
-    sf::Sprite king;
-    if (!texture.loadFromFile("Texture/¬õ«Ó.png", sf::IntRect(0, 0, 530, 530))) {
-        std::cout << "Board Set Texture Faild\n";
+    std::vector<sf::Texture> chessTexture(32);
+    std::vector<sf::Sprite> chessSprite(32);
+    int i = 0;
+    for (int x = 0; x < 10; x++) {
+        for (int y = 0; y < 9; y++) {
+            const Chess& chess = board.board[x][y];
+            if (!chess.isActive) continue;
+            std::string path = "Texture/" + std::to_string(chess.color) + std::to_string(chess.id) + ".png";
+            if (!chessTexture[i].loadFromFile(path, sf::IntRect(0, 0, 65, 65)))
+                std::cout << "Chess Set Texture Faild\n";
+            chessSprite[i].setTexture(chessTexture[i]);
+            std::pair<int, int> pos = Board2Pixel(x, y);
+            chessSprite[i].setPosition(pos.first, pos.second);
+            i += 1;
+        }
     }
-    king.setTexture(texture);
-    king.setPosition(250, 0);
     
-
     while (window->isOpen()) {
         while (window->pollEvent(event)) {
             switch (event.type) {
@@ -119,6 +139,7 @@ void Viewer::updateGame(Board& board) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     int x = event.mouseButton.x;
                     int y = event.mouseButton.y;
+                    if ()
                 }
                 break;
             }
@@ -127,7 +148,9 @@ void Viewer::updateGame(Board& board) {
 
         window->clear(sf::Color::White);
         window->draw(sprite);
-        window->draw(king);
+        for (auto c : chessSprite) {
+            window->draw(c);
+        }
         window->display();
     }
 }

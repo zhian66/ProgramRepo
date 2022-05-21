@@ -1,31 +1,35 @@
 #include "Chess.h"
 
 Horse::Horse() {
-    
+    id = 4;
 }
 
 Horse::Horse(const Horse& horse) {
     pos = horse.pos;
     color = horse.color;
     isActive = horse.isActive;
+    id = horse.id;
 }
 
 Horse::Horse(const int& X, const int& Y) {
     pos = std::make_pair(X, Y);
     color = 2;
     isActive = false;
+    id = 4;
 }
 
 Horse::Horse(const std::pair<int, int>& Pos) {
     pos = Pos;
     color = 2;
     isActive = false;
+    id = 4;
 }
 
 Horse::Horse(const int& X, const int& Y, int color) {
     pos = std::make_pair(X, Y);
     this->color = color;
     isActive = true;
+    id = 4;
 }
 
 Horse::~Horse() {
@@ -36,6 +40,7 @@ Horse& Horse::operator= (const Horse& horse) {
     pos = horse.pos;
     color = horse.color;
     isActive = horse.isActive;
+    id = horse.id;
     return *this;
 }
 
@@ -43,7 +48,7 @@ Horse& Horse::operator= (const std::pair<int, int>& Pos) {
     pos = Pos;
     return *this;
 }
-
+/*
 std::vector<std::pair<int, int>>& Horse::getSuggestion(){
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
@@ -105,3 +110,4 @@ std::vector<std::pair<int, int>>& Horse::getSuggestion(){
     }
     return sugList;
 }
+*/

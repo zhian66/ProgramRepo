@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
-#include <utility>
 #include "Button.h"
+#include <utility>
 #include "Board.h"
 #include "SFML/Graphics.hpp"
 
@@ -12,7 +12,7 @@ public:
 	int currStatus;		// 0: Menu, 1: NewGame, 2: LoadGame
 
 	void printMenu();
-	void updateGame(Board& board);
+	void updateGame(const Board& board);
 	const bool isRunning() const;
 
 private:

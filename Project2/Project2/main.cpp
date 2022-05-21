@@ -8,7 +8,6 @@ int main() {
         switch (GM.getStatus()) {   // if the window is opened
         case 0:                     // defult menu
             GM.menu();
-            GM.playGame(); break;
         case 1:                      // new game
             GM.initGame();
             GM.playGame(); break;
