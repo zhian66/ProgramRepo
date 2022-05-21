@@ -1,27 +1,31 @@
 #include "Chess.h"
 
 Guard::Guard() {
-    //  how do you know if it is player1 or not?
-    if(Player1) pos = std::make_pair(3, 9);
-    else pos = std::make_pair(3, 0);
-    //  how do you deal with X?
+    
 }
 
 Guard::Guard(const Guard& guard) {
     pos = guard.pos;
+    color = guard.color;
+    isActive = guard.isActive;
 }
 
 Guard::Guard(const int& X, const int& Y) {
     pos = std::make_pair(X, Y);
+    color = 2;
+    isActive = false;
 }
 
 Guard::Guard(const std::pair<int, int>& Pos) {
     pos = Pos;
+    color = 2;
+    isActive = false;
 }
 
 Guard::Guard(const int& X, const int& Y, int color) {
     pos = std::make_pair(X, Y);
     this->color = color;
+    isActive = true;
 }
 
 Guard::~Guard() {
@@ -30,6 +34,8 @@ Guard::~Guard() {
 
 Guard& Guard::operator= (const Guard& guard) {
     pos = guard.pos;
+    color = guard.color;
+    isActive = guard.isActive;
     return *this;
 }
 

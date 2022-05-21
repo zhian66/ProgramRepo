@@ -1,27 +1,31 @@
 #include "Chess.h"
 
 Horse::Horse() {
-    //  how do you know if it is player1 or not?
-    if(Player1) pos = std::make_pair(1, 9);
-    else pos = std::make_pair(1, 0);
-    //  how do you deal with X?
+    
 }
 
 Horse::Horse(const Horse& horse) {
     pos = horse.pos;
+    color = horse.color;
+    isActive = horse.isActive;
 }
 
 Horse::Horse(const int& X, const int& Y) {
     pos = std::make_pair(X, Y);
+    color = 2;
+    isActive = false;
 }
 
 Horse::Horse(const std::pair<int, int>& Pos) {
     pos = Pos;
+    color = 2;
+    isActive = false;
 }
 
 Horse::Horse(const int& X, const int& Y, int color) {
     pos = std::make_pair(X, Y);
     this->color = color;
+    isActive = true;
 }
 
 Horse::~Horse() {
@@ -30,6 +34,8 @@ Horse::~Horse() {
 
 Horse& Horse::operator= (const Horse& horse) {
     pos = horse.pos;
+    color = horse.color;
+    isActive = horse.isActive;
     return *this;
 }
 

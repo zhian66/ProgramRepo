@@ -1,27 +1,31 @@
 #include "Chess.h"
 
 Cannon::Cannon() {
-    //  how do you know if it is player1 or not?
-    if(Player1) pos = std::make_pair(1, 7);
-    else pos = std::make_pair(1, 2);
-    //  how do you deal with X?
+    
 }
 
 Cannon::Cannon(const Cannon& cannon) {
     pos = cannon.pos;
+    color = cannon.color;
+    isActive = cannon.isActive;
 }
 
 Cannon::Cannon(const int& X, const int& Y) {
     pos = std::make_pair(X, Y);
+    color = 2;
+    isActive = false;
 }
 
 Cannon::Cannon(const std::pair<int, int>& Pos) {
     pos = Pos;
+    color = 2;
+    isActive = false;
 }
 
 Cannon::Cannon(const int& X, const int& Y, int color) {
     pos = std::make_pair(X, Y);
     this->color = color;
+    isActive = true;
 }
 
 Cannon::~Cannon() {
@@ -30,6 +34,8 @@ Cannon::~Cannon() {
 
 Cannon& Cannon::operator= (const Cannon& cannon) {
     pos = cannon.pos;
+    color = cannon.color;
+    isActive = cannon.isActive;
     return *this;
 }
 

@@ -3,14 +3,14 @@
 #ifndef Board_h
 #define Board_h
 
-#include <array>
+#include <vector>
 #include <utility>
 #include "Chess.h"
 using namespace std;
 
 class Board {
 private:
-    array<array<Chess&, 10>, 9> board;   // player_1 will be down side, and player_2 will be upper side
+    vector<vector<Chess&>> board;   // player_1 will be down side, and player_2 will be upper side
     
 public:
     Board();

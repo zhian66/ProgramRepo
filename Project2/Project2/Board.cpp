@@ -9,6 +9,75 @@ Board::Board() {
     Cannon Cannon1_1(1, 7, 0), Cannon1_2(7, 7, 0), Cannon2_1(1, 2, 1), Cannon2_2(7, 2, 1);
     Pawn Pawn1_1(0, 6, 0), Pawn1_2(2, 6, 0), Pawn1_3(4, 6, 0), Pawn1_4(6, 6, 0), Pawn1_5(8, 6, 0);
     Pawn Pawn2_1(0, 3, 1), Pawn2_2(2, 3, 1), Pawn2_3(4, 3, 1), Pawn2_4(6, 3, 1), Pawn2_5(8, 3, 1);
+    Chess none;
+    
+    for(int row = 0; row < 10; row++) {
+        vector<Chess&> oneRow;
+        if(row == 0) {
+            oneRow.push_back(Rook2_1);      // (0, 0)
+            oneRow.push_back(Horse2_1);     // (1, 0)
+            oneRow.push_back(Minister2_1);  // (2, 0)
+            oneRow.push_back(Guard2_1);     // (3, 0)
+            oneRow.push_back(King2);        // (4, 0)
+            oneRow.push_back(Guard2_2);     // (5, 0)
+            oneRow.push_back(Minister2_2);  // (6, 0)
+            oneRow.push_back(Horse2_2);     // (7, 0)
+            oneRow.push_back(Rook2_2);      // (8, 0)
+        }
+        else if(row == 2) {
+            oneRow.push_back(none);                            // (0, 2)
+            oneRow.push_back(Cannon2_1);                       // (1, 2)
+            for(int i = 0; i < 5; i++) oneRow.push_back(none); // (2, 2)~(6, 2)
+            oneRow.push_back(Cannon2_2);                       // (7, 2)
+            oneRow.push_back(none);                            // (8, 2)
+        }
+        else if(row == 3) {
+            oneRow.push_back(Pawn2_1);  // (0, 3)
+            oneRow.push_back(none);     // (1, 3)
+            oneRow.push_back(Pawn2_2);  // (2, 3)
+            oneRow.push_back(none);     // (3, 3)
+            oneRow.push_back(Pawn2_3);  // (4, 3)
+            oneRow.push_back(none);     // (5, 3)
+            oneRow.push_back(Pawn2_4);  // (6, 3)
+            oneRow.push_back(none);     // (7, 3)
+            oneRow.push_back(Pawn2_5);  // (8, 3)
+            oneRow.push_back(none);     // (9, 3)
+        }
+        else if(row == 6) {
+            oneRow.push_back(Pawn1_1);  // (0, 6)
+            oneRow.push_back(none);     // (1, 6)
+            oneRow.push_back(Pawn1_2);  // (2, 6)
+            oneRow.push_back(none);     // (3, 6)
+            oneRow.push_back(Pawn1_3);  // (4, 6)
+            oneRow.push_back(none);     // (5, 6)
+            oneRow.push_back(Pawn1_4);  // (6, 6)
+            oneRow.push_back(none);     // (7, 6)
+            oneRow.push_back(Pawn1_5);  // (8, 6)
+            oneRow.push_back(none);     // (9, 6)
+        }
+        else if(row == 7) {
+            oneRow.push_back(none);                            // (0, 7)
+            oneRow.push_back(Cannon1_1);                       // (1, 7)
+            for(int i = 0; i < 5; i++) oneRow.push_back(none); // (2, 7)~(6, 7)
+            oneRow.push_back(Cannon1_2);                       // (7, 7)
+            oneRow.push_back(none);                            // (8, 7)
+        }
+        else if(row == 9) {
+            oneRow.push_back(Rook1_1);      // (0, 0)
+            oneRow.push_back(Horse1_1);     // (1, 0)
+            oneRow.push_back(Minister1_1);  // (2, 0)
+            oneRow.push_back(Guard1_1);     // (3, 0)
+            oneRow.push_back(King1);        // (4, 0)
+            oneRow.push_back(Guard1_2);     // (5, 0)
+            oneRow.push_back(Minister1_2);  // (6, 0)
+            oneRow.push_back(Horse1_2);     // (7, 0)
+            oneRow.push_back(Rook1_2);      // (8, 0)
+        }
+        else {
+            for(int i = 0; i < 9; i++) oneRow.push_back(none);
+        }
+        board.push_back(oneRow);
+    }
 }
 
 Board::Board(const Board& brd) {
