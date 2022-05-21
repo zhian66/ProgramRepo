@@ -28,8 +28,6 @@ void Viewer::printMenu() {
 
     Button ReadButton;
     ReadButton.app = window;
-    ReadButton.setColor(sf::Color::White);
-
     ReadButton.setTexture("ReadButton.png"); // Can Changing: Please save the Picture in Texture Folder
     ReadButton.setPosition(500, 510, 200, 80);  // start x, start y, width, height 
 
