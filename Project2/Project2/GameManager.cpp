@@ -2,12 +2,12 @@
 
 GameManager::GameManager() {
 	current_player = 1;
-	gameStatus = 0;
+	gameStatus = MENU;
 }
 
 void GameManager::menu() {
 	viewer.printMenu();
-	gameStatus = viewer.currStatus;     // see what bottom you will click (StartBottom: 1, ReadBottom: 2)
+	gameStatus = viewer.gameStatus;     // see what bottom you will click (StartBottom: 1, ReadBottom: 2)
 }
 
 void GameManager::initGame() {
@@ -17,7 +17,7 @@ void GameManager::initGame() {
 
 void GameManager::playGame() {
 	viewer.updateGame(board);
-	gameStatus = viewer.currStatus;
+	gameStatus = viewer.gameStatus;
 }
 
 bool GameManager::LoadGame() {

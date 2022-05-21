@@ -14,14 +14,15 @@ std::pair<int, int> Board2Pixel(int x, int y) {   // Convert board x-y to window
     return std::pair<int, int>{convertX, convertY};
 }
  
-int isChess() {
-    
-}
 
-std::pair<int, int> Pixel2Board(int x, int y) {     // Convert windows x-y(pixel) to board x-y
-    int convertX = 265 + y * 76;
-    int convertY = 5 + x * 80;
-    return std::pair<int, int>{convertX, convertY};
+bool Pixel2Board(int x, int y, std::pair<int, int>& pos) {     // Convert windows x-y(pixel) to board x-y
+    if (x >= 1025 || x < 265)
+        return 0;
+    if (y >= 725 || y < 5)
+        return 0;
+    pos.second = (x - 265) / 76;
+    pos.first = (y - 5) / 80;
+    return 1;
 }
 
 
@@ -29,7 +30,7 @@ Viewer::Viewer() {
     sf::VideoMode videoMode(1200, 800);
     window = new sf::RenderWindow(videoMode, "ChineseChess");// Window's width size, Window's height size, titile
     setIcon(*window);
-    currStatus = 0; // Menu
+    gameStatus = 0; // Menu
 }
 
 Viewer::~Viewer() {
@@ -76,12 +77,12 @@ void Viewer::printMenu() {
         }
         if (startButton.onClick(event)) {
             std::cout << "clicked start button\n";
-            currStatus = 1;
+            gameStatus = NEW_GAME;
             break;
         }
         if (ReadButton.onClick(event)) {
             std::cout << "clicked read button\n";
-            currStatus = 2;
+            gameStatus = LOAD_GAME;
             break;
         }
         if (EndButton.onClick(event)) {
@@ -139,11 +140,35 @@ void Viewer::updateGame(const Board& board) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     int x = event.mouseButton.x;
                     int y = event.mouseButton.y;
-                    if ()
+                    std::pair<int, int> pos;
+                    if (!Pixel2Board(x, y, pos)) {
+                        if (chessStatus == SHOW_SUGGEST)
+                            chessStatus = WATING;
+                        continue;
+                    }
+                    else if (!board.board[pos.first][pos.second].isActive) {
+                        if (chessStatus == SHOW_SUGGEST) {
+                            std::cout << "Move piece\n";
+                            chessStatus = MOVE_PIECE;
+                        }
+                        continue;
+                    }
+                    else {
+                        std::cout << "Click " << board.board[pos.first][pos.second].id << "\n";
+                        pressedPos = pos;
+
+                        if (chessStatus == WATING) {
+                            std::cout << "Show Suggestion\n";
+                            chessStatus = SHOW_SUGGEST;
+                            break;
+                        } else if (chessStatus == SHOW_SUGGEST) {
+                            std::cout << "Kick\n";
+                            chessStatus = KICK;
+                        } 
+                    }
                 }
                 break;
             }
-
         }
 
         window->clear(sf::Color::White);
