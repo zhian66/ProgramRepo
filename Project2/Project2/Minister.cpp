@@ -33,7 +33,7 @@ Minister& Minister::operator= (const std::pair<int, int>& Pos) {
     return *this;
 }
 
-std::vector<std::pair<int, int>>& Minister::getSuggestion() {
+std::vector<std::pair<int, int>>& Minister::getSuggestion() override {
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
     {

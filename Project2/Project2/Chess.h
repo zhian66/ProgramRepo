@@ -15,7 +15,7 @@ public:
     ~Chess();
     Chess& operator= (const Chess& piece);                      // assign a class
     Chess& operator= (const std::pair<int, int>& pos);          // assign the position to the Chess
-    virtual void getSuggestion() = 0;                           // get suggestion where you can go
+    virtual std::vector<std::pair<int, int>>& getSuggestion();  // get suggestion where you can go
     void go(const int& X, const int& Y);                        // go to the position
     void go(const std::pair<int, int>& pos);                    // go to the position
     void stay();                                                // do not move
@@ -31,7 +31,7 @@ public:
     ~King();
     King& operator= (const King& king);
     King& operator= (const std::pair<int, int>& Pos);
-    std::vector<std::pair<int, int>>& getSuggestion();
+    std::vector<std::pair<int, int>>& getSuggestion() override;
 };
 
 class Pawn : public Chess {
@@ -43,7 +43,7 @@ public:
     ~Pawn();
     Pawn& operator= (const Pawn& pawn);
     Pawn& operator= (const std::pair<int, int>& Pos);
-    std::vector<std::pair<int, int>>& getSuggestion();
+    std::vector<std::pair<int, int>>& getSuggestion() override;
 };
 
 class Rook : public Chess {
@@ -55,7 +55,7 @@ public:
     ~Rook();
     Rook& operator= (const Rook& rook);
     Rook& operator= (const std::pair<int, int>& Pos);
-    std::vector<std::pair<int, int>>& getSuggestion();
+    std::vector<std::pair<int, int>>& getSuggestion() override;
 };
 
 class Minister : public Chess {
@@ -67,7 +67,7 @@ public:
     ~Minister();
     Minister& operator= (const Minister& minister);
     Minister& operator= (const std::pair<int, int>& Pos);
-    std::vector<std::pair<int, int>>& getSuggestion();
+    std::vector<std::pair<int, int>>& getSuggestion() override;
 };
 
 class Horse : public Chess {
@@ -79,7 +79,7 @@ public:
     ~Horse();
     Horse& operator= (const Horse& horse);
     Horse& operator= (const std::pair<int, int>& Pos);
-    std::vector<std::pair<int, int>>& getSuggestion();
+    std::vector<std::pair<int, int>>& getSuggestion() override;
 };
 
 class Cannon : public Chess {
@@ -91,7 +91,7 @@ public:
     ~Cannon();
     Cannon& operator= (const Cannon& cannon);
     Cannon& operator= (const std::pair<int, int>& Pos);
-    std::vector<std::pair<int, int>>& getSuggestion();
+    std::vector<std::pair<int, int>>& getSuggestion() override;
 };
 
 class Guard : public Chess {
@@ -103,7 +103,7 @@ public:
     ~Guard();
     Guard& operator= (const Guard& guard);
     Guard& operator= (const std::pair<int, int>& Pos);
-    std::vector<std::pair<int, int>>& getSuggestion();
+    std::vector<std::pair<int, int>>& getSuggestion() override;
 };
 
 
