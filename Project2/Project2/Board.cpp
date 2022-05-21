@@ -1,25 +1,23 @@
 #include "Board.h"
 
-Board::Board() {
-    King King1(4, 9), King2(4, 0);
-    Guard Guard1_1(3, 9), Guard1_2(5, 9), Guard2_1(3, 0), Guard2_2(5, 0);
-    Minister Minister1_1(2, 9), Minister1_2(6, 9), Minister2_1(2, 0), Minister2_2(6, 0);
-    Rook Rook1_1(0, 9), Rook1_2(8, 9), Rook2_1(0, 0), Rook2_2(8, 0);
-    Horse Horse1_1(1, 9), Horse1_2(7, 9), Horse2_1(1, 0), Horse2_2(7, 0);
-    Cannon Cannon1_1(1, 7), Cannon1_2(7, 7), Cannon2_1(1, 2), Cannon2_2(7, 2);
-    Pawn Pawn1_1(0, 6), Pawn1_2(2, 6), Pawn1_3(4, 6), Pawn1_4(6, 6), Pawn1_5(8, 6);
-    Pawn Pawn2_1(0, 3), Pawn2_2(2, 3), Pawn2_3(4, 3), Pawn2_4(6, 3), Pawn2_5(8, 3);
+std::pair<int, int> Board::posChanging(std::pair<int, int> pos) {
+	std::pair<int, int> ansPos = { 0, 0 };
+	int a[8] = { 283, 360, 441, 521, 600, 759, 838, 917 };
+	int b[10] = { 35, 118, 200, 282, 364, 447, 529, 611, 694, 775 };
+	ansPos.first = a[pos.first];
+	ansPos.second = b[pos.second];
+	return ansPos;
 }
-
-Board::Board(const Board& brd) {
-    board = brd.board;
-}
-
-Board::~Board() {
-    
-}
-
-Board& Board::operator= (const Board& brd) {
-    board = brd.board;
-    return *this;
-}
+/*
+(0,0) 283,35 (1,0) 360,35 (2,0) 441,35 (3,0) 521,35 (4,0) 600,35 (5,0) 759,35 (6,0) 838,35 (7,0) 917,35
+(0,1) 283,118
+(0,2) 283,200
+(0,3) 283,282
+(0,4) 283,364
+					/////·¡ªeº~¬É///////
+(0,5) 283,447
+(0,6) 283,529
+(0,7) 283,611
+(0,8) 283,694
+(0,9) 283,775
+*/

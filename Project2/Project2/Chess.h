@@ -1,6 +1,5 @@
 //  Created by RinKawano
 #include <iostream>
-#include <vector>
 
 #ifndef Chess_h
 #define Chess_h
@@ -34,7 +33,7 @@ public:
     ~King();
     King& operator= (const King& king);
     King& operator= (const std::pair<int, int>& Pos);
-    std::vector<std::pair<int, int>>& getSuggestion();
+    void getSuggestion();
 };
 
 class Pawn : public Chess {
@@ -47,7 +46,7 @@ public:
     ~Pawn();
     Pawn& operator= (const Pawn& pawn);
     Pawn& operator= (const std::pair<int, int>& Pos);
-    std::vector<std::pair<int, int>>& getSuggestion();
+    void getSuggestion();
 };
 
 class Rook : public Chess {
@@ -60,7 +59,7 @@ public:
     ~Rook();
     Rook& operator= (const Rook& rook);
     Rook& operator= (const std::pair<int, int>& Pos);
-    std::vector<std::pair<int, int>>& getSuggestion();
+    void getSuggestion();
 };
 
 class Minister : public Chess {
@@ -73,7 +72,7 @@ public:
     ~Minister();
     Minister& operator= (const Minister& minister);
     Minister& operator= (const std::pair<int, int>& Pos);
-    std::vector<std::pair<int, int>>& getSuggestion();
+    void getSuggestion();
 };
 
 class Horse : public Chess {
@@ -86,7 +85,7 @@ public:
     ~Horse();
     Horse& operator= (const Horse& horse);
     Horse& operator= (const std::pair<int, int>& Pos);
-    std::vector<std::pair<int, int>>& getSuggestion();
+    void getSuggestion();
 };
 
 class Cannon : public Chess {
@@ -99,7 +98,7 @@ public:
     ~Cannon();
     Cannon& operator= (const Cannon& cannon);
     Cannon& operator= (const std::pair<int, int>& Pos);
-    std::vector<std::pair<int, int>>& getSuggestion();
+    void getSuggestion();
 };
 
 class Guard : public Chess {
@@ -112,7 +111,7 @@ public:
     ~Guard();
     Guard& operator= (const Guard& guard);
     Guard& operator= (const std::pair<int, int>& Pos);
-    std::vector<std::pair<int, int>>& getSuggestion();
+    void getSuggestion();
 };
 
 

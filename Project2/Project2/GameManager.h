@@ -21,4 +21,4 @@ public:
 	const bool isRunning() const;
 	int getStatus() const;
 
-}; 
+};
