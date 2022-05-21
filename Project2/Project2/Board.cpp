@@ -1,10 +1,11 @@
 #include "Board.h"
 
-pair Board::posChanging(pair pos) {
-	pair ansPos = { 0, 0 };
+std::pair<int, int> Board::posChanging(std::pair<int, int> pos) {
+	std::pair<int, int> ansPos = { 0, 0 };
 	int a[8] = { 283, 360, 441, 521, 600, 759, 838, 917 };
 	int b[10] = { 35, 118, 200, 282, 364, 447, 529, 611, 694, 775 };
-	ansPos.x = a[pos.x], ansPos.y = b[pos.y];
+	ansPos.first = a[pos.first];
+	ansPos.second = b[pos.second];
 	return ansPos;
 }
 /*

@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include "Button.h"
-#include ".\SFML-2.5.1\include\SFML\Graphics.hpp"
+#include "SFML/Graphics.hpp"
 
 class Viewer {
 public:

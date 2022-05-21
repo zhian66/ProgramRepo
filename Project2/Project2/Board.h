@@ -3,5 +3,5 @@
 
 class Board{
 public:
-	pair posChanging(pair pos);
+	std:: pair<int, int> posChanging(std::pair<int, int> pos);
 };
