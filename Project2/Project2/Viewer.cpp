@@ -23,7 +23,7 @@ void Viewer::printMenu() {
     std::cout << "Viewer::PrintMenu\n";
     Button startButton;
     startButton.app = window;
-    startButton.setTexture("StartButton1.png"); // Can Changing: Please save the Picture in Texture Folder
+    startButton.setTexture("StartButton.png"); // Can Changing: Please save the Picture in Texture Folder
     startButton.setPosition(500, 400, 200, 80); // start x, start y, width, height 
 
     Button ReadButton;
