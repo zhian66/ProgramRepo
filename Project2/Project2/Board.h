@@ -3,7 +3,7 @@
 #ifndef Board_h
 #define Board_h
 
-#include <array>
+#include <vector>
 #include <utility>
 #include <string>
 #include "Chess.h"

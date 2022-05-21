@@ -1,26 +1,33 @@
 #include "Chess.h"
 
 King::King() {
-    //  how do you know if it is player1 or not?
-    if(Player1) pos = std::make_pair(4, 9);
-    else pos = std::make_pair(4, 0);
+    if(color == 0) pos = std::make_pair(4, 9);
+    else if(color == 1) pos = std::make_pair(4, 0);
+    else pos = std::make_pair(0, 0);
 }
 
 King::King(const King& king) {
     pos = king.pos;
+    color = king.color;
+    isActive = king.isActive;
 }
 
 King::King(const int& X, const int& Y) {
     pos = std::make_pair(X, Y);
+    color = 2;
+    isActive = false;
 }
 
 King::King(const std::pair<int, int>& Pos) {
     pos = Pos;
+    color = 2;
+    isActive = false;
 }
 
 King::King(const int& X, const int& Y, int color) {
     pos = std::make_pair(X, Y);
     this->color = color;
+    isActive = true;
 }
 
 King::~King() {
@@ -29,6 +36,8 @@ King::~King() {
 
 King& King::operator= (const King& king) {
     pos = king.pos;
+    color = king.color;
+    isActive = king.isActive;
     return *this;
 }
 

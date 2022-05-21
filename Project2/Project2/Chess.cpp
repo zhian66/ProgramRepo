@@ -2,23 +2,32 @@
 
 Chess::Chess() {
     pos = std::make_pair(0, 0);
+    color = 2;
+    isActive = false;
 }
 
 Chess::Chess(const Chess& piece) {
     pos = piece.pos;
+    color = piece.color;
+    isActive = piece.isActive;
 }
 
 Chess::Chess(const int& X, const int& Y) {
     pos = std::make_pair(X, Y);
+    color = 2;
+    isActive = false;
 }
 
 Chess::Chess(const std::pair<int, int>& Pos) {
     pos = Pos;
+    color = 2;
+    isActive = false;
 }
 
 Chess::Chess(const int& X, const int& Y, int color) {
     pos = std::make_pair(X, Y);
     this->color = color;
+    isActive = true;
 }
 
 
@@ -28,6 +37,8 @@ Chess::~Chess() {
 
 Chess& Chess::operator= (const Chess& piece) {
     pos = piece.pos;
+    pos = piece.color;
+    pos = piece.isActive;
     return *this;
 }
 
@@ -53,4 +64,18 @@ void Chess::stay() {
 
 void Chess::kick() {
     return;
+}
+
+bool Chess:inEnemy() {
+    if(color == 0) {
+        if(0 <= pos.first && pos.first <= 8) {
+            if(0 <= pos.second && pos.second <= 4) return true;
+        }
+    }
+    else if(color == 1) {
+        if(0 <= pos.first && pos.first <= 8) {
+            if(5 <= pos.second && pos.second <= 9) return true;
+        }
+    }
+    return false;
 }

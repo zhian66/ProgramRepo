@@ -1,27 +1,33 @@
 #include "Chess.h"
 
 Pawn::Pawn() {
-    //  how do you know if it is player1 or not?
-    if(Player1) pos = std::make_pair(0, 6);
-    else pos = std::make_pair(0, 3);
-    //  how do you deal with X?
+    if(color == 0) pos = std::make_pair(0, 6);
+    else if(color == 1) pos = std::make_pair(0, 3);
+    else pos = std::make_pair(0, 0);
 }
 
 Pawn::Pawn(const Pawn& pawn) {
     pos = pawn.pos;
+    color = pawn.color;
+    isActive = pawn.isActive;
 }
 
 Pawn::Pawn(const int& X, const int& Y) {
     pos = std:: make_pair(X, Y);
+    color = 2;
+    isActive = false;
 }
 
 Pawn::Pawn(const std::pair<int, int>& Pos) {
     pos = Pos;
+    color = 2;
+    isActive = false;
 }
 
 Pawn::Pawn(const int& X, const int& Y, int color) {
     pos = std::make_pair(X, Y);
     this->color = color;
+    isActive = true;
 }
 
 Pawn::~Pawn() {
@@ -30,6 +36,8 @@ Pawn::~Pawn() {
 
 Pawn& Pawn::operator= (const Pawn& pawn) {
     pos = pawn.pos;
+    color = pawn.color;
+    isActive = pawn.isActive;
     return *this;
 }
 
@@ -41,24 +49,22 @@ Pawn& Pawn::operator= (const std::pair<int, int>& Pos) {
 std::vector<std::pair<int, int>>& Pawn::getSuggestion() override {
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
-    //  how do you know if it is player1 or not?
-    if(pos.second != 0 && player1) {    // up
+    if(pos.second != 0 && color == 0) {    // up
         sug = pos;
         sug.second--;
         sugList.push_back(sug);
     }
-    if(player2 && pos.second != 9) {    // down
+    if(color == 1 && pos.second != 9) {    // down
         sug = pos;
         sug.second++;
         sugList.push_back(sug);
     }
-    // how do you know if you are in enemy camp?
-    if(pos.first != 8 && inEnemy) {    // right
+    if(pos.first != 8 && inEnemy()) {    // right
         sug = pos;
         sug.first++;
         sugList.push_back(sug);
     }
-    if(pos.first != 0 && inEnemy) {    // left
+    if(pos.first != 0 && inEnemy()) {    // left
         sug = pos;
         sug.first--;
         sugList.push_back(sug);
