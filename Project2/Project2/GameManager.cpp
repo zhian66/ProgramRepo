@@ -60,7 +60,7 @@ int GameManager::checGameOver() {
 	if (!redKing) return Red_Win;
 	if (red_stalemate) return Black_Win;
 	if (!blackKing) return Black_Win;
-	return false;
+	return Continue;
 }
 
 void GameManager::playGame() {
@@ -114,6 +114,7 @@ void GameManager::playGame() {
 			for (auto it = on_board.begin(); it != on_board.end(); it++) {
 				if (*it == board.board[pos.first][pos.second]) {
 					on_board.erase(it);
+					break;
 				}
 			}
 			delete board.board[pos.first][pos.second];
@@ -146,17 +147,19 @@ void GameManager::printMSG(int check) {
 	enum GameOver {
 		Continue, Red_Checkmate, Black_Checkmate, Red_Win, Black_Win
 	};
+	std::cout << "=================================================\n";
 	std::cout << "check: " << check << "\n";
 	/*
 	if (check == Red_Checkmate)
-		MessageBoxA(NULL, "紅方將軍", "注意", MB_OKCANCEL | MB_ICONEXCLAMATION);
+		MessageBoxA(NULL, "Red Checkmate", "Warning", MB_OKCANCEL);
 	else if (check == Black_Checkmate)
-		MessageBoxA(NULL, "黑方將軍", "注意", MB_OKCANCEL | MB_ICONEXCLAMATION);
+		MessageBoxA(NULL, "Black Checkmate", "Warning", MB_OKCANCEL);
 	else if (check == Red_Win)
-		MessageBoxA(NULL, "紅方獲勝\n是否開始新的一局?", "注意", MB_YESNO | MB_ICONEXCLAMATION);
+		MessageBoxA(NULL, "Red Win", "Warning", MB_YESNO);
 	else if (check == Black_Win)
-		MessageBoxA(NULL, "黑方獲勝\n是否開始新的一局?", "注意", MB_YESNO | MB_ICONEXCLAMATION);
+		MessageBoxA(NULL, "Black Win", "Warning", MB_YESNO | MB_ICONEXCLAMATION);
 	*/
+	
 }
 
 bool GameManager::LoadGame() {
