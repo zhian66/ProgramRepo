@@ -21,46 +21,42 @@ int GameManager::checkGameOver() {
 	bool black_stalemate = true;
 	bool redKing = false;					// found king (king not exist -> lose)
 	bool blackKing = false;
+	bool black_checkmate = false;
+	bool red_checkmate = false;
+
+	std::vector<std::pair<int, int>> sugList;
 
 	for (auto& chess : on_board) {
-		if (chess->color == 1) {
-			if (chess->id == 1) {
+		if (chess->id == 1) {
+			if (chess->color == 1)
 				redKing = true;
-				for (int Y = chess->pos.second - 1; Y >= 0; Y--) {
-					if (board.board[chess->pos.first][Y]->isActive) {
-						if (board.board[chess->pos.first][Y]->id != 1)
-							break;
-						else return Black_Checkmate;
-					}
-				}
-			}
-			if (red_stalemate) {
-				if ((chess->getSuggestion(board.board)).size() != 0) {
-					red_stalemate = false;
-				}
-			}
-		} else {
-			if (chess->id == 1) {
+			else if (chess->color == 2)
 				blackKing = true;
-				for (int Y = chess->pos.second + 1; Y < 10; Y++) {
-					if (board.board[chess->pos.first][Y]->isActive) {
-						if (board.board[chess->pos.first][Y]->id != 1)
-							break;
-						else return Red_Checkmate;
-					}
+		}
+		sugList = chess->getSuggestion(board.board);
+		for (auto& sug : sugList) {
+			if (board.board[sug.first][sug.second]->id == 1) {
+				if (chess->color == 1) {
+					black_checkmate = true;
+					break;
+				} else {
+					red_checkmate = true;
+					break;
 				}
 			}
-			if (black_stalemate) {
-				if ((chess->getSuggestion(board.board)).size() != 0) {
-					black_stalemate = false;
-				}
-			}
+		}
+		if (red_stalemate && sugList.size() != 0) {
+			red_stalemate = false;
+		} else if (black_stalemate && sugList.size() != 0) {
+			black_stalemate = false;
 		}
 	}
 	if (black_stalemate) return Red_Win;
 	if (!redKing) return Black_Win;
 	if (red_stalemate) return Black_Win;
 	if (!blackKing) return Red_Win;
+	if (black_checkmate) return Black_Checkmate;
+	if (red_checkmate) return Red_Checkmate;
 	return Continue;
 }
 
@@ -150,7 +146,7 @@ void GameManager::playGame() {
 			else if (check == Black_Checkmate)
 				MessageBoxA(NULL, "Black Checkmate", "Warning", MB_OKCANCEL);
 			else if (check == Red_Win) {
-				int result = MessageBoxA(NULL, "New Game?", "Red Win", MB_YESNO);
+				int result = MessageBoxA(NULL, "Red Win\nNew Game?", "Win", MB_YESNO);
 				std::cout << result << "\n=============\n";
 				if (result == IDYES) {
 					gameStatus = NEW_GAME;
@@ -162,7 +158,7 @@ void GameManager::playGame() {
 					return;
 				}
 			} else if (check == Black_Win) {
-				int result = MessageBoxA(NULL, "New Game?", "Black Win", MB_YESNO);
+				int result = MessageBoxA(NULL, "Black Win\nNew Game?", "Win", MB_YESNO);
 				std::cout << result << "\n=============\n";
 				if (result == IDYES) {
 					gameStatus = NEW_GAME;

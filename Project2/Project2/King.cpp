@@ -64,6 +64,9 @@ std::vector<std::pair<int, int>> King::getSuggestion(std::vector<std::vector<Che
         sug.first++;
         if (!board[sug.first][sug.second]->isActive)
             sugList.push_back(sug);
+        else
+            if (board[sug.first][sug.second]->color != color)
+                sugList.push_back(sug);
     }
     
     if(tmp.first != 3) {    // left
@@ -71,6 +74,9 @@ std::vector<std::pair<int, int>> King::getSuggestion(std::vector<std::vector<Che
         sug.first--;
         if (!board[sug.first][sug.second]->isActive)
             sugList.push_back(sug);
+        else
+            if (board[sug.first][sug.second]->color != color)
+                sugList.push_back(sug);
     }
     bool meetKing = false;
     if (color == 1) {
@@ -90,6 +96,9 @@ std::vector<std::pair<int, int>> King::getSuggestion(std::vector<std::vector<Che
                 sug.second--;
                 if (!board[sug.first][sug.second]->isActive)
                     sugList.push_back(sug);
+                else
+                    if (board[sug.first][sug.second]->color != color)
+                        sugList.push_back(sug);
             }
         }
         if (tmp.second != 2 && tmp.second != 9) {    // down
@@ -97,6 +106,9 @@ std::vector<std::pair<int, int>> King::getSuggestion(std::vector<std::vector<Che
             sug.second++;
             if (!board[sug.first][sug.second]->isActive)
                 sugList.push_back(sug);
+            else
+                if (board[sug.first][sug.second]->color != color)
+                    sugList.push_back(sug);
         }
 
     } else {
@@ -117,6 +129,9 @@ std::vector<std::pair<int, int>> King::getSuggestion(std::vector<std::vector<Che
                 sug.second++;
                 if (!board[sug.first][sug.second]->isActive)
                     sugList.push_back(sug);
+                else
+                    if (board[sug.first][sug.second]->color != color)
+                        sugList.push_back(sug);
             }
         }
         if (tmp.second != 0 && tmp.second != 7) {    // up
@@ -124,6 +139,9 @@ std::vector<std::pair<int, int>> King::getSuggestion(std::vector<std::vector<Che
             sug.second--;
             if (!board[sug.first][sug.second]->isActive)
                 sugList.push_back(sug);
+            else
+                if (board[sug.first][sug.second]->color != color)
+                    sugList.push_back(sug);
         }
         
 
