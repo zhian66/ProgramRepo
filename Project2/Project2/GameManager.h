@@ -1,4 +1,17 @@
+<<<<<<< Updated upstream
 #pragma oncef
+=======
+#pragma once
+#define WIN32_LEAN_AND_MEAN
+#include "SFML/Window.hpp"
+
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#include <Commdlg.h>
+
+>>>>>>> Stashed changes
 #include <vector>
 #include "Viewer.h"
 #include "Board.h"
