@@ -7,15 +7,16 @@ GameManager::GameManager() {
 
 void GameManager::menu() {
 	viewer.printMenu();
-	gameStatus = viewer.gameStatus;     // see what bottom you will click (StartBottom: 1, ReadBottom: 2)
+	gameStatus = viewer.gameStatus;     // see what bottom you will click (StartBottom: 1, loadBottom: 2)
 }
 
 void GameManager::initGame() {
 	current_player = 1;
 	on_board = board.initBoard();
+	viewer.chessStatus = WATING;
 }
 
-int GameManager::checGameOver() {
+int GameManager::checkGameOver() {
 	bool red_stalemate = true;				// ¤í¦æ§PÂ_
 	bool black_stalemate = true;
 	bool redKing = false;					// found king (king not exist -> lose)
@@ -57,9 +58,9 @@ int GameManager::checGameOver() {
 		}
 	}
 	if (black_stalemate) return Red_Win;
-	if (!redKing) return Red_Win;
+	if (!redKing) return Black_Win;
 	if (red_stalemate) return Black_Win;
-	if (!blackKing) return Black_Win;
+	if (!blackKing) return Red_Win;
 	return Continue;
 }
 
@@ -135,7 +136,7 @@ void GameManager::playGame() {
 			viewer.chessStatus = WATING;
 		}
 
-		int check = checGameOver();
+		int check = checkGameOver();
 		if (check) {
 			enum GameOver {
 				Continue, Red_Checkmate, Black_Checkmate, Red_Win, Black_Win
@@ -178,47 +179,15 @@ void GameManager::playGame() {
 	}
 }
 
-void GameManager::printMSG(int check) {
-	enum GameOver {
-		Continue, Red_Checkmate, Black_Checkmate, Red_Win, Black_Win
-	};
-	std::cout << "=================================================\n";
-	std::cout << "check: " << check << "\n";
-
-	
-	if (check == Red_Checkmate)
-		MessageBoxA(NULL, "Red Checkmate", "Warning", MB_OKCANCEL);
-	else if (check == Black_Checkmate)
-		MessageBoxA(NULL, "Black Checkmate", "Warning", MB_OKCANCEL);
-	else if (check == Red_Win) {
-		int result = MessageBoxA(NULL, "New Game?", "Red Win", MB_YESNO);
-		std::cout << result << "\n=============\n";
-		if (result == IDYES) {
-			gameStatus = 1;
-		} else if (result == IDCANCEL) {
-			gameStatus = 0;
-		}
-	}
-	else if (check == Black_Win) {
-		int result = MessageBoxA(NULL, "New Game?", "Black Win", MB_YESNO);
-		std::cout << result << "\n=============\n";
-		if (result == IDYES) {
-			gameStatus = 1;
-		} else if (result == IDCANCEL) {
-			gameStatus = 0;
-		}
-	}
-}
-
 
 std::string GameManager::openFile() {
 
 	char filename[MAX_PATH];
-	//char currFile[MAX_PATH];
+	char currFile[MAX_PATH];
 
 	OPENFILENAMEA ofn = {0};
 	
-	std::fill(filename, filename + 300, '\0');
+	ZeroMemory(&filename, sizeof(filename));	
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = NULL;  // If you have a window to center over, put its HANDLE here
 	ofn.lpstrFilter = "All Files(*.*)\0*.*\0\0";
@@ -230,46 +199,54 @@ std::string GameManager::openFile() {
 	ofn.nFilterIndex = 0;
 	ofn.lpstrFileTitle = NULL;
 	ofn.lpstrInitialDir = NULL;
-	std::cout << GetOpenFileNameA(&ofn) << std::endl;
-	std::cout << filename << (int)CommDlgExtendedError();
-	//ofn.Flags = OFN_DONTADDTORECENT | OFN_FILEMUSTEXIST;
-
+	//std::cout << GetOpenFileNameA(&ofn) << std::endl;
+	//std::cout << filename << (int)CommDlgExtendedError();
 	//GetCurrentDirectoryA(MAX_PATH, currFile);
-	//GetOpenFileNameA((LPOPENFILENAMEA)&ofn); 
+
+	std::string path = "";
+
+	if (GetOpenFileNameA((LPOPENFILENAMEA)&ofn)) {
+		std::cout << "You chose the file \"" << ofn.lpstrFile << "\"\n";
+		for (int i = 0; i < strlen(filename); i++) {
+			if (filename[i] == '\\') {
+				path += "\\\\";
+			}
+			else {
+				path += filename[i];
+			}
+		}
+		std::cout << path << "\n";
+	}
+	else {
+		// All this stuff below is to tell you exactly how you messed up above.
+		// Once you've got that fixed, you can often (not always!) reduce it to a 'user cancelled' assumption.
+		switch (CommDlgExtendedError()) {
+		case CDERR_DIALOGFAILURE:   std::cout << "CDERR_DIALOGFAILURE\n";    break;
+		case CDERR_FINDRESFAILURE:  std::cout << "CDERR_FINDRESFAILURE\n";   break;
+		case CDERR_INITIALIZATION:  std::cout << "CDERR_INITIALIZATION\n";   break;
+		case CDERR_LOADRESFAILURE:  std::cout << "CDERR_LOADRESFAILURE\n";   break;
+		case CDERR_LOADSTRFAILURE:  std::cout << "CDERR_LOADSTRFAILURE\n";   break;
+		case CDERR_LOCKRESFAILURE:  std::cout << "CDERR_LOCKRESFAILURE\n";   break;
+		case CDERR_MEMALLOCFAILURE: std::cout << "CDERR_MEMALLOCFAILURE\n";  break;
+		case CDERR_MEMLOCKFAILURE:  std::cout << "CDERR_MEMLOCKFAILURE\n";   break;
+		case CDERR_NOHINSTANCE:     std::cout << "CDERR_NOHINSTANCE\n";      break;
+		case CDERR_NOHOOK:          std::cout << "CDERR_NOHOOK\n";           break;
+		case CDERR_NOTEMPLATE:      std::cout << "CDERR_NOTEMPLATE\n";       break;
+		case CDERR_STRUCTSIZE:      std::cout << "CDERR_STRUCTSIZE\n";       break;
+		case FNERR_BUFFERTOOSMALL:  std::cout << "FNERR_BUFFERTOOSMALL\n";   break;
+		case FNERR_INVALIDFILENAME: std::cout << "FNERR_INVALIDFILENAME\n";  break;
+		case FNERR_SUBCLASSFAILURE: std::cout << "FNERR_SUBCLASSFAILURE\n";  break;
+		default:                    std::cout << "You cancelled.\n";
+		}
+	}
 	//SetCurrentDirectoryA(currFile);
 
-		/*
-		if (GetOpenFileNameA((LPOPENFILENAMEA)&ofn)) {
-			std::cout << "You chose the file \"" << ofn.lpstrFile << "\"\n";
-		}
-		else {
-			// All this stuff below is to tell you exactly how you messed up above.
-			// Once you've got that fixed, you can often (not always!) reduce it to a 'user cancelled' assumption.
-			switch (CommDlgExtendedError()) {
-			case CDERR_DIALOGFAILURE:   std::cout << "CDERR_DIALOGFAILURE\n";    break;
-			case CDERR_FINDRESFAILURE:  std::cout << "CDERR_FINDRESFAILURE\n";   break;
-			case CDERR_INITIALIZATION:  std::cout << "CDERR_INITIALIZATION\n";   break;
-			case CDERR_LOADRESFAILURE:  std::cout << "CDERR_LOADRESFAILURE\n";   break;
-			case CDERR_LOADSTRFAILURE:  std::cout << "CDERR_LOADSTRFAILURE\n";   break;
-			case CDERR_LOCKRESFAILURE:  std::cout << "CDERR_LOCKRESFAILURE\n";   break;
-			case CDERR_MEMALLOCFAILURE: std::cout << "CDERR_MEMALLOCFAILURE\n";  break;
-			case CDERR_MEMLOCKFAILURE:  std::cout << "CDERR_MEMLOCKFAILURE\n";   break;
-			case CDERR_NOHINSTANCE:     std::cout << "CDERR_NOHINSTANCE\n";      break;
-			case CDERR_NOHOOK:          std::cout << "CDERR_NOHOOK\n";           break;
-			case CDERR_NOTEMPLATE:      std::cout << "CDERR_NOTEMPLATE\n";       break;
-			case CDERR_STRUCTSIZE:      std::cout << "CDERR_STRUCTSIZE\n";       break;
-			case FNERR_BUFFERTOOSMALL:  std::cout << "FNERR_BUFFERTOOSMALL\n";   break;
-			case FNERR_INVALIDFILENAME: std::cout << "FNERR_INVALIDFILENAME\n";  break;
-			case FNERR_SUBCLASSFAILURE: std::cout << "FNERR_SUBCLASSFAILURE\n";  break;
-			default:                    std::cout << "You cancelled.\n";
-			}
-		}*/
-	//return ofn.lpstrFile;
-	return "";
+	return path;
 }
 
 bool GameManager::LoadGame() {
-
+	std::cout << "LoadGame\n";
+	
 	std::string filename, str, tmp;
 	std::ifstream fp(openFile());
 	std::stringstream check;
@@ -289,7 +266,9 @@ bool GameManager::LoadGame() {
 			//waiting to write
 		}
 	}
-	return false;//why return false?
+	fp.close();
+	
+	return false;
 }
 
 

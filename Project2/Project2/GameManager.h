@@ -38,7 +38,7 @@ class GameManager {
 	enum GameOver {
 		Continue, Red_Checkmate, Black_Checkmate, Red_Win, Black_Win
 	};
-	int checGameOver();	// return 0: false, 1: RED_checkmate 2: Black_checkmate, 3: Red_win 4: Black_win
+	int checkGameOver();	// return 0: false, 1: RED_checkmate 2: Black_checkmate, 3: Red_win 4: Black_win
 
 public:
 	GameManager();
@@ -46,7 +46,6 @@ public:
 	void initGame();    // initialize game
 	bool LoadGame();    // load game
 	void playGame();    // play initialized/loaded game
-	void printMSG(int check);
 
 	const bool isRunning() const;
 	int getStatus() const;

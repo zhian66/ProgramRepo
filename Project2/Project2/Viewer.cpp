@@ -96,7 +96,7 @@ void Viewer::printMenu() {
             break;
         }
         if (ReadButton.onClick(event)) {
-            std::cout << "clicked read button\n";
+            std::cout << "clicked load button\n";
             gameStatus = LOAD_GAME;
             break;
         }
