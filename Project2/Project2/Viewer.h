@@ -1,9 +1,9 @@
 #pragma once
-#include <iostream>
-#include "Button.h"
-#include <utility>
-#include "Board.h"
 #include "SFML/Graphics.hpp"
+#include <iostream>
+#include <utility>
+#include "Button.h"
+#include "Board.h"
 
 class Viewer {
 public:

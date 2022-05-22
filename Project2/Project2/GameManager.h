@@ -1,4 +1,6 @@
 #pragma once
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <vector>
 #include "Viewer.h"
 #include "Board.h"
@@ -13,12 +15,18 @@ class GameManager {
 	int gameStatus;		// 0: menu, 1: new_game, 2: load_game, 3: gaem_over
 	int chessStatus;	// 0:wating click, 1: show suggestion, 2: kick, 3: move piece
 
+	enum GameOver {
+		Continue, Red_Checkmate, Black_Checkmate, Red_Win, Black_Win
+	};
+	int checGameOver();	// return 0: false, 1: RED_checkmate 2: Black_checkmate, 3: Red_win 4: Black_win
+
 public:
 	GameManager();
 	void menu();
 	void initGame();    // initialize game
 	bool LoadGame();    // load game
 	void playGame();    // play initialized/loaded game
+	void printMSG(int check);
 
 	const bool isRunning() const;
 	int getStatus() const;

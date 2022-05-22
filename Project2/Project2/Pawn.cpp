@@ -76,12 +76,12 @@ std::vector<std::pair<int, int>> Pawn::getSuggestion(std::vector<std::vector<Che
 
     }
     if (throghRiver) {
-        if (pos.first != 8 && inEnemy()) {    // right
+        if (pos.first != 8) {    // right
             sug = pos;
             sug.first++;
             sugList.push_back(sug);
         }
-        if (pos.first != 0 && inEnemy()) {    // left
+        if (pos.first != 0) {    // left
             sug = pos;
             sug.first--;
             sugList.push_back(sug);

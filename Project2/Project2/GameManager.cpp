@@ -15,6 +15,54 @@ void GameManager::initGame() {
 	on_board = board.initBoard();
 }
 
+int GameManager::checGameOver() {
+	bool red_stalemate = true;				// 欠行判斷
+	bool black_stalemate = true;
+	bool redKing = false;					// found king (king not exist -> lose)
+	bool blackKing = false;
+
+	for (auto& chess : on_board) {
+		if (chess->color == 1) {
+			if (chess->id == 1) {
+				redKing = true;
+				for (int Y = chess->pos.second - 1; Y >= 0; Y--) {
+					if (board.board[chess->pos.first][Y]->isActive) {
+						if (board.board[chess->pos.first][Y]->id != 1)
+							break;
+						else return Black_Checkmate;
+					}
+				}
+			}
+			if (red_stalemate) {
+				if ((chess->getSuggestion(board.board)).size() != 0) {
+					red_stalemate = false;
+				}
+			}
+		} else {
+			if (chess->id == 1) {
+				blackKing = true;
+				for (int Y = chess->pos.second + 1; Y < 10; Y++) {
+					if (board.board[chess->pos.first][Y]->isActive) {
+						if (board.board[chess->pos.first][Y]->id != 1)
+							break;
+						else return Red_Checkmate;
+					}
+				}
+			}
+			if (black_stalemate) {
+				if ((chess->getSuggestion(board.board)).size() != 0) {
+					black_stalemate = false;
+				}
+			}
+		}
+	}
+	if (black_stalemate) return Red_Win;
+	if (!redKing) return Red_Win;
+	if (red_stalemate) return Black_Win;
+	if (!blackKing) return Black_Win;
+	return false;
+}
+
 void GameManager::playGame() {
 	std::pair<int, int> pos(-1, -1);
 	std::pair<int, int> prePos;
@@ -62,8 +110,13 @@ void GameManager::playGame() {
 
 		if (viewer.chessStatus == KICK) {
 			std::cout << "Kick\n";
-			delete board.board[pos.first][pos.second];
 			Chess* temp = new Empty;
+			for (auto it = on_board.begin(); it != on_board.end(); it++) {
+				if (*it == board.board[pos.first][pos.second]) {
+					on_board.erase(it);
+				}
+			}
+			delete board.board[pos.first][pos.second];
 			board.board[pos.first][pos.second] = board.board[prePos.first][prePos.second];
 			board.board[prePos.first][prePos.second] = temp;
 			board.board[pos.first][pos.second]->pos.first = pos.first;
@@ -80,8 +133,30 @@ void GameManager::playGame() {
 			board.board[pos.first][pos.second]->pos.second = pos.second;
 			viewer.chessStatus = WATING;
 		}
+
+		int check = checGameOver();
+		if (check) {
+			printMSG(check);
+		}
 		current_player = current_player % 2 + 1;
 	}
+}
+
+void GameManager::printMSG(int check) {
+	enum GameOver {
+		Continue, Red_Checkmate, Black_Checkmate, Red_Win, Black_Win
+	};
+	std::cout << "check: " << check << "\n";
+	/*
+	if (check == Red_Checkmate)
+		MessageBoxA(NULL, "紅方將軍", "注意", MB_OKCANCEL | MB_ICONEXCLAMATION);
+	else if (check == Black_Checkmate)
+		MessageBoxA(NULL, "黑方將軍", "注意", MB_OKCANCEL | MB_ICONEXCLAMATION);
+	else if (check == Red_Win)
+		MessageBoxA(NULL, "紅方獲勝\n是否開始新的一局?", "注意", MB_YESNO | MB_ICONEXCLAMATION);
+	else if (check == Black_Win)
+		MessageBoxA(NULL, "黑方獲勝\n是否開始新的一局?", "注意", MB_YESNO | MB_ICONEXCLAMATION);
+	*/
 }
 
 bool GameManager::LoadGame() {

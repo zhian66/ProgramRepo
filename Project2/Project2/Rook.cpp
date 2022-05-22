@@ -54,8 +54,10 @@ std::vector<std::pair<int, int>> Rook::getSuggestion(std::vector<std::vector<Che
     std::pair<int, int> sug;
     for(int Y = pos.second - 1; Y >= 0; Y--) {  // up
         if (board[pos.first][Y]->isActive)
-            if (board[pos.first][Y]->color == color)
+            if (board[pos.first][Y]->color != color) {
+                sugList.push_back(std::make_pair(pos.first, Y));
                 break;
+            } else break;
             else
                 sugList.push_back(std::make_pair(pos.first, Y));
 
@@ -64,8 +66,10 @@ std::vector<std::pair<int, int>> Rook::getSuggestion(std::vector<std::vector<Che
     }
     for(int Y = pos.second + 1; Y <= 9; Y++) {  // down
         if (board[pos.first][Y]->isActive)
-            if (board[pos.first][Y]->color == color)
+            if (board[pos.first][Y]->color != color) {
+                sugList.push_back(std::make_pair(pos.first, Y));
                 break;
+            } else break;
             else
                 sugList.push_back(std::make_pair(pos.first, Y));
 
@@ -74,8 +78,10 @@ std::vector<std::pair<int, int>> Rook::getSuggestion(std::vector<std::vector<Che
     }
     for(int X = pos.first - 1; X >= 0; X--) {  // left
         if (board[X][pos.second]->isActive)
-            if (board[X][pos.second]->color == color)
+            if (board[X][pos.second]->color != color) {
+                sugList.push_back(std::make_pair(X, pos.second));
                 break;
+            } else break;
             else
                 sugList.push_back(std::make_pair(X, pos.second));
 
@@ -84,8 +90,10 @@ std::vector<std::pair<int, int>> Rook::getSuggestion(std::vector<std::vector<Che
     }
     for(int X = pos.first + 1; X <= 8; X++) {  // right
         if (board[X][pos.second]->isActive)
-            if (board[X][pos.second]->color == color)
+            if (board[X][pos.second]->color != color) {
+                sugList.push_back(std::make_pair(X, pos.second));
                 break;
+            } else break;
             else
                 sugList.push_back(std::make_pair(X, pos.second));
         sug = std::make_pair(X, pos.second);

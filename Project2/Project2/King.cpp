@@ -58,30 +58,77 @@ std::vector<std::pair<int, int>> King::getSuggestion(std::vector<std::vector<Che
     std::vector<std::pair<int, int>> sugList;
     if (color == 1) tmp.second -= 7;
     
-    if(tmp.second != 0 && tmp.second != 7) {    // up
-        sug = pos;
-        sug.second--;
-        if (!board[sug.first][sug.second]->isActive)
-            sugList.push_back(sug);
-    }
+
     if(tmp.first != 5) {    // right
         sug = pos;
         sug.first++;
         if (!board[sug.first][sug.second]->isActive)
             sugList.push_back(sug);
     }
-    if(tmp.second != 2 && tmp.second != 9) {    // down
-        sug = pos;
-        sug.second++;
-        if (!board[sug.first][sug.second]->isActive)
-            sugList.push_back(sug);
-    }
+    
     if(tmp.first != 3) {    // left
         sug = pos;
         sug.first--;
         if (!board[sug.first][sug.second]->isActive)
             sugList.push_back(sug);
     }
+    bool meetKing = false;
+    if (color == 1) {
+        for (int Y = pos.second - 1; Y >= 0; Y--) {
+            if (board[pos.first][Y]->isActive) {
+                if (board[pos.first][Y]->id != 1)
+                    break;
+                else {
+                    sugList.push_back(std::make_pair(pos.first, Y));
+                    meetKing = true;
+                }
+            }
+        }
+        if (!meetKing) {
+            if (tmp.second != 0 && tmp.second != 7) {    // up
+                sug = pos;
+                sug.second--;
+                if (!board[sug.first][sug.second]->isActive)
+                    sugList.push_back(sug);
+            }
+        }
+        if (tmp.second != 2 && tmp.second != 9) {    // down
+            sug = pos;
+            sug.second++;
+            if (!board[sug.first][sug.second]->isActive)
+                sugList.push_back(sug);
+        }
+
+    } else {
+        for (int Y = pos.second + 1; Y < 10; Y++) {
+            if (board[pos.first][Y]->isActive) {
+                if (board[pos.first][Y]->id != 1)
+                    break;
+                else {
+                    sugList.push_back(std::make_pair(pos.first, Y));
+                    meetKing = true;
+                }
+            }
+        }
+
+        if (!meetKing) {
+            if (tmp.second != 2 && tmp.second != 9) {    // down
+                sug = pos;
+                sug.second++;
+                if (!board[sug.first][sug.second]->isActive)
+                    sugList.push_back(sug);
+            }
+        }
+        if (tmp.second != 0 && tmp.second != 7) {    // up
+            sug = pos;
+            sug.second--;
+            if (!board[sug.first][sug.second]->isActive)
+                sugList.push_back(sug);
+        }
+        
+
+    }
+
     
     return sugList;
 }

@@ -55,6 +55,18 @@ void Chess::go(const int& X, const int& Y) {
     return;
 }
 
+bool Chess::operator==(const Chess& piece) {
+    if (pos != piece.pos)
+        return false;
+    if (color != piece.color)
+        return false;
+    if (isActive != piece.isActive)
+        return false;
+    if (id != piece.id)
+        return false;
+    return true;
+}
+
 void Chess::go(const std::pair<int, int>& Pos) {
     pos = Pos;
     return;

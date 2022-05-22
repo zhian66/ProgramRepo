@@ -45,6 +45,7 @@ Viewer::Viewer() {
     window = new sf::RenderWindow(videoMode, "ChineseChess");// Window's width size, Window's height size, titile
     setIcon(*window);
     gameStatus = 0; // Menu
+    chessStatus = WATING;
 }
 
 Viewer::~Viewer() {
@@ -211,6 +212,8 @@ void Viewer::updateGame(const Board& board) {
         window->display();
     }
 }
+
+
 
 const bool Viewer::isRunning() const {
     return window->isOpen();

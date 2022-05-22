@@ -84,7 +84,7 @@ std::vector<std::pair<int, int>> Horse::getSuggestion(std::vector<std::vector<Ch
             for (int y = -1; y <= 1; y += 2) {
                 if (sug.second + y > 9 || sug.second + y < 0)
                     continue;
-                if (board[sug.first + y][sug.second]->isActive)
+                if (board[sug.first][sug.second + y]->isActive)
                     if (board[sug.first][sug.second + y]->color == color)
                         continue;
                 sugList.push_back(std::make_pair(sug.first, sug.second + y));

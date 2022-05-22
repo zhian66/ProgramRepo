@@ -22,6 +22,8 @@ public:
     Chess& operator= (const Chess& piece);                      // assign a class
     Chess& operator= (const std::pair<int, int>& pos);          // assign the position to the Chess
 
+    bool operator==(const Chess& piece);
+
     virtual std::vector<std::pair<int, int>> getSuggestion(std::vector<std::vector<Chess*>> board);
     // get suggestion where you can go
     
