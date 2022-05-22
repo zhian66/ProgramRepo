@@ -56,43 +56,47 @@ std::vector<std::pair<int, int>> Guard::getSuggestion(std::vector<std::vector<Ch
     if (color == 1) tmp.second -= 7;
     {
         //  up right
-        sug = tmp;
-        sug.first += 1;
-        sug.second -= 1;
-        if(sug.first <= 5 && sug.second >= 0)
-            if (!(board[sug.first][sug.second]->isActive && 
+        if (tmp.first + 1 <= 5 && tmp.second - 1 >= 0) {
+            sug = pos;
+            sug.first += 1;
+            sug.second -= 1;
+            if (!(board[sug.first][sug.second]->isActive &&
                 board[sug.first][sug.second]->color == color))
                 sugList.push_back(sug);
+        }
     }
     {
         //  down right
-        sug = tmp;
-        sug.first += 1;
-        sug.second += 1;
-        if(sug.first <= 5 && sug.second <= 2) 
-            if (!(board[sug.first][sug.second]->isActive && 
+        if (tmp.first + 1 <= 5 && tmp.second + 1 <= 2) {
+            sug = pos;
+            sug.first += 1;
+            sug.second += 1;
+            if (!(board[sug.first][sug.second]->isActive &&
                 board[sug.first][sug.second]->color == color))
                 sugList.push_back(sug);
+        }
     }
     {
         //  up left
-        sug = tmp;
-        sug.first -= 1;
-        sug.second -= 1;
-        if(sug.first >= 3 && sug.second >= 0) 
-            if (!(board[sug.first][sug.second]->isActive && 
+        if (tmp.first - 1 >= 3 && tmp.second - 1 >= 0) {
+            sug = pos;
+            sug.first -= 1;
+            sug.second -= 1;
+            if (!(board[sug.first][sug.second]->isActive &&
                 board[sug.first][sug.second]->color == color))
                 sugList.push_back(sug);
+        }
     }
     {
         //  down left
-        sug = tmp;
-        sug.first -= 1;
-        sug.second += 1;
-        if(sug.first >= 3 && sug.second <= 2) 
-            if (!(board[sug.first][sug.second]->isActive && 
+        if (tmp.first - 1 >= 3 && tmp.second + 1 <= 2) {
+            sug = pos;
+            sug.first -= 1;
+            sug.second += 1;
+            if (!(board[sug.first][sug.second]->isActive &&
                 board[sug.first][sug.second]->color == color))
                 sugList.push_back(sug);
+        }
     }
     return sugList;
 }
