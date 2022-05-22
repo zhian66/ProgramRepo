@@ -48,8 +48,8 @@ Horse& Horse::operator= (const std::pair<int, int>& Pos) {
     pos = Pos;
     return *this;
 }
-/*
-std::vector<std::pair<int, int>>& Horse::getSuggestion(){
+
+std::vector<std::pair<int, int>> Horse::getSuggestion(){
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
     {
@@ -110,4 +110,3 @@ std::vector<std::pair<int, int>>& Horse::getSuggestion(){
     }
     return sugList;
 }
-*/

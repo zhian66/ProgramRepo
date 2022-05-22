@@ -46,28 +46,26 @@ std::vector<Chess> Board::initBoard() {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 9; j++) {
             // color 0 is black, 1 is red
-            int color = i < 5 ? 1 : 0;
+            int color = i < 5 ? 0 : 1;
             if (nameTable[i][j] == "Empty") {
-                Chess Empty;
-                Empty.isActive = false;
-                board[i][j] = Empty;
+                board[i][j] = new Empty();
                 continue;
             } else if (nameTable[i][j] == "King") {
-                board[i][j] = King(i, j, color);
+                board[i][j] = new King(i, j, color);
             } else if (nameTable[i][j] == "Guard") {
-                board[i][j] = Guard(i, j, color);
+                board[i][j] = new Guard(i, j, color);
             } else if (nameTable[i][j] == "Minister") {
-                board[i][j] = Minister(i, j, color);
+                board[i][j] = new Minister(i, j, color);
             } else if (nameTable[i][j] == "Horse") {
-                board[i][j] = Horse(i, j, color);
+                board[i][j] = new Horse(i, j, color);
             } else if (nameTable[i][j] == "Rook") {
-                board[i][j] = Rook(i, j, color);
+                board[i][j] = new Rook(i, j, color);
             } else if (nameTable[i][j] == "Cannon") {
-                board[i][j] = Cannon(i, j, color);
+                board[i][j] = new Cannon(i, j, color);
             } else if (nameTable[i][j] == "Pawn") {
-                board[i][j] = Pawn(i, j, color);
+                board[i][j] = new Pawn(i, j, color);
             }
-            on_board.push_back(board[i][j]);
+            on_board.push_back(*board[i][j]);
         }
     }
     return on_board;

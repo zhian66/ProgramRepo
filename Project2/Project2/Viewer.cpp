@@ -112,9 +112,8 @@ void Viewer::updateGame(const Board& board) {
     int i = 0;
     for (int x = 0; x < 10; x++) {
         for (int y = 0; y < 9; y++) {
-            const Chess& chess = board.board[x][y];
-            if (!chess.isActive) continue;
-            std::string path = "Texture/" + std::to_string(chess.color) + std::to_string(chess.id) + ".png";
+            if (!board.board[x][y]->isActive) continue;
+            std::string path = "Texture/" + std::to_string(board.board[x][y]->color) + std::to_string(board.board[x][y]->id) + ".png";
             if (!chessTexture[i].loadFromFile(path, sf::IntRect(0, 0, 65, 65)))
                 std::cout << "Chess Set Texture Faild\n";
             chessSprite[i].setTexture(chessTexture[i]);
@@ -137,6 +136,9 @@ void Viewer::updateGame(const Board& board) {
                     std::cout << "mouse x: " << event.mouseButton.x << std::endl;
                     std::cout << "mouse y: " << event.mouseButton.y << std::endl;
                 }
+                break;
+            }
+            if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     int x = event.mouseButton.x;
                     int y = event.mouseButton.y;
@@ -145,29 +147,28 @@ void Viewer::updateGame(const Board& board) {
                         if (chessStatus == SHOW_SUGGEST)
                             chessStatus = WATING;
                         continue;
-                    }
-                    else if (!board.board[pos.first][pos.second].isActive) {
+                    } else if (!board.board[pos.first][pos.second]->isActive) {
                         if (chessStatus == SHOW_SUGGEST) {
                             std::cout << "Move piece\n";
                             chessStatus = MOVE_PIECE;
+                            break;
                         }
                         continue;
-                    }
-                    else {
-                        std::cout << "Click " << board.board[pos.first][pos.second].id << "\n";
+                    } else {
+                        std::cout << "Click " << board.board[pos.first][pos.second]->id << "\n";
                         pressedPos = pos;
 
                         if (chessStatus == WATING) {
                             std::cout << "Show Suggestion\n";
                             chessStatus = SHOW_SUGGEST;
-                            break;
+                            return;
                         } else if (chessStatus == SHOW_SUGGEST) {
                             std::cout << "Kick\n";
                             chessStatus = KICK;
-                        } 
+                            break;
+                        }
                     }
                 }
-                break;
             }
         }
 

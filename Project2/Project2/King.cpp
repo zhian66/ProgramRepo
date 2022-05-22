@@ -51,10 +51,24 @@ King& King::operator= (const std::pair<int, int>& Pos) {
     pos = Pos;
     return *this;
 }
-/*
-std::vector<std::pair<int, int>>& King::getSuggestion(){
+
+std::vector<std::pair<int, int>> King::getSuggestion(){
     std::vector<std::pair<int, int>> sugList;
-    std::pair<int, int> sug;
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            std::pair<int, int> tmp;
+            std::pair<int, int> sug;
+            if (color == 1) tmp.first -= 7;
+            if (tmp.first + i < 0 || tmp.first + i > 2)
+                continue;
+            if (tmp.second + j < 3 || tmp.second + j > 5)
+                continue;
+            sug.first += i;
+            sug.second += j;
+            sugList.push_back(sug);
+        }
+    }
+    /*
     if(pos.second != 0 && pos.second != 7) {    // up
         sug = pos;
         sug.second--;
@@ -75,6 +89,6 @@ std::vector<std::pair<int, int>>& King::getSuggestion(){
         sug.first--;
         sugList.push_back(sug);
     }
+    */
     return sugList;
 }
-*/

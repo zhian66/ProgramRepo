@@ -4,14 +4,14 @@
 #include "Board.h"
 
 class GameManager {
-	enum GameStatus { MENU, NEW_GAME, LOAD_GAME };
-	enum ChessStatus { WATING, SHOW_SUGGEST, MOVE_PIECE };
-	std::vector<Chess> on_board;
+	enum GameStatus { MENU, NEW_GAME, LOAD_GAME, GAME_OVER};
+	enum ChessStatus { WATING, SHOW_SUGGEST, KICK, MOVE_PIECE };
+	std::vector<Chess*> on_board;
 	int current_player; // 1: Player1, 2: Player2
 	Board board;
 	Viewer viewer;
-	int gameStatus;		// 0: menu, 1: new_game, 2: load_game
-	int chessStatus;	// 0:wating click, 1: show suggestion, 2: move piece
+	int gameStatus;		// 0: menu, 1: new_game, 2: load_game, 3: gaem_over
+	int chessStatus;	// 0:wating click, 1: show suggestion, 2: kick, 3: move piece
 
 public:
 	GameManager();

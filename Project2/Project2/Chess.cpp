@@ -68,6 +68,12 @@ void Chess::kick() {
     return;
 }
 
+std::vector<std::pair<int, int>> Chess::getSuggestion() {
+    std::vector<std::pair<int, int>> sugList;
+    return sugList;
+}
+
+
 bool Chess::inEnemy() {
     if(color == 0) {
         if(0 <= pos.first && pos.first <= 8) {
@@ -80,4 +86,14 @@ bool Chess::inEnemy() {
         }
     }
     return false;
+}
+
+
+Empty::Empty() {
+    isActive = false;
+}
+
+std::vector<std::pair<int, int>> Empty::getSuggestion() {
+    std::vector<std::pair<int, int>> sugList;
+    return sugList;
 }

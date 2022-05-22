@@ -47,8 +47,8 @@ Minister& Minister::operator= (const std::pair<int, int>& Pos) {
     pos = Pos;
     return *this;
 }
-/*
-std::vector<std::pair<int, int>>& Minister::getSuggestion(){
+
+std::vector<std::pair<int, int>> Minister::getSuggestion(){
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
     {
@@ -81,4 +81,3 @@ std::vector<std::pair<int, int>>& Minister::getSuggestion(){
     }
     return sugList;
 }
-*/

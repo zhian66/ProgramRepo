@@ -48,8 +48,8 @@ Rook& Rook::operator= (const std::pair<int, int>& Pos) {
     pos = Pos;
     return *this;
 }
-/*
-std::vector<std::pair<int, int>>& Rook::getSuggestion(){
+
+std::vector<std::pair<int, int>> Rook::getSuggestion(){
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
     for(int Y = pos.second; Y >= 0; Y--) {  // up
@@ -70,4 +70,3 @@ std::vector<std::pair<int, int>>& Rook::getSuggestion(){
     }
     return sugList;
 }
-*/
