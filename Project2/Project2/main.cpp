@@ -14,6 +14,7 @@ int main() {
             GM.playGame(); 
             break;
         case 2:                     // load game
+            GM.initGame();
             GM.LoadGame(); 
             GM.playGame();
             break;
