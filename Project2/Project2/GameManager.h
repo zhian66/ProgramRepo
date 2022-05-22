@@ -1,18 +1,23 @@
 #pragma once
 #define WIN32_LEAN_AND_MEAN
 #include "SFML/Window.hpp"
+
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <windows.h>
+#include <Commdlg.h>
 
 #include <vector>
+#include "Viewer.h"
+#include "Board.h"
+
 #include <iostream>
 #include <string>
 #include <tchar.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
-#include "Viewer.h"
-#include "Board.h"
 
 
 
