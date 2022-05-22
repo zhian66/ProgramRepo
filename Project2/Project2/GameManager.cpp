@@ -177,7 +177,7 @@ std::string GameManager::openFile() {
 	ofn.lpstrTitle = "Select a File, yo!";
 	ofn.Flags = OFN_DONTADDTORECENT | OFN_FILEMUSTEXIST;
 
-	GetOpenFileNameA((LPOPENFILENAMEA)&ofn); j /
+	GetOpenFileNameA((LPOPENFILENAMEA)&ofn); 
 
 		/*
 		if (GetOpenFileNameA((LPOPENFILENAMEA)&ofn)) {
