@@ -34,6 +34,7 @@ class GameManager {
 	Viewer viewer;
 	int gameStatus;		// 0: menu, 1: new_game, 2: load_game, 3: gaem_over
 	int chessStatus;	// 0:wating click, 1: show suggestion, 2: kick, 3: move piece
+    std::ofstream save_data;
 
 	enum GameOver {
 		Continue, Red_Checkmate, Black_Checkmate, Red_Win, Black_Win

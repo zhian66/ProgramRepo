@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include <typeinfo>
 
 GameManager::GameManager() {
 	current_player = 1;
@@ -14,6 +15,7 @@ void GameManager::initGame() {
 	current_player = 1;
 	on_board = board.initBoard();
 	viewer.chessStatus = WATING;
+    save_data.open("save_data.txt");
 }
 
 int GameManager::checkGameOver() {
@@ -96,7 +98,11 @@ void GameManager::playGame() {
 			if (board.board[pos.first][pos.second]->color != current_player) {
 				viewer.chessStatus = WATING;
 				continue;
-			} 
+			}
+            
+            // save_data if you clicked right object before showing the suggestion
+            save_data << "Player: " << board[pos.first][pos.second]->color << ", Action: " << typeid(*board[pos.first][pos.second]).name() << " (" << pos.first << ", " << pos.second << ") -> ";
+            
 			board.sugList = board.board[pos.first][pos.second]->getSuggestion(board.board);
 			std::cout << "Show Suggestion\n";
 			for (auto& sug : board.sugList) {
@@ -119,6 +125,7 @@ void GameManager::playGame() {
 			board.board[prePos.first][prePos.second] = temp;
 			board.board[pos.first][pos.second]->pos.first = pos.first;
 			board.board[pos.first][pos.second]->pos.second = pos.second;
+            save_data << "(" << pos.first << ", " << pos.second << ")\n";   // save_data if you got right destination before turning the status to WAITING
 			viewer.chessStatus = WATING;
 
 		} else if (viewer.chessStatus == MOVE_PIECE) {
@@ -129,6 +136,7 @@ void GameManager::playGame() {
 			board.board[prePos.first][prePos.second] = temp;
 			board.board[pos.first][pos.second]->pos.first = pos.first;
 			board.board[pos.first][pos.second]->pos.second = pos.second;
+            save_data << "(" << pos.first << ", " << pos.second << ")\n";   // save_data if you got right destination before turning the status to WAITING
 			viewer.chessStatus = WATING;
 		}
 
