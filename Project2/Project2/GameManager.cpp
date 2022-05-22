@@ -62,6 +62,18 @@ int GameManager::checkGameOver() {
 	return Continue;
 }
 
+std::string convertName(int id) {
+	std::string name = "";
+	if (id == 1) name = "General";
+	else if (id == 2) name = "Advisor";
+	else if (id == 3) name = "Elephant";
+	else if (id == 4) name = "Horse";
+	else if (id == 5) name = "Chariot";
+	else if (id == 6) name = "Cannon";
+	else if (id == 7) name = "Soldier";
+	return name;
+}
+
 void GameManager::playGame() {
 	std::pair<int, int> pos(-1, -1);
 	std::pair<int, int> prePos;
@@ -101,7 +113,7 @@ void GameManager::playGame() {
 			}
             
             // save_data if you clicked right object before showing the suggestion
-            save_data << "Player: " << board[pos.first][pos.second]->color << ", Action: " << typeid(*board[pos.first][pos.second]).name() << " (" << pos.first << ", " << pos.second << ") -> ";
+            save_data << "Player: " << board.board[pos.first][pos.second]->color << ", Action: " << convertName(board.board[pos.first][pos.second]->id) << " (" << pos.first << ", " << pos.second << ") -> ";
             
 			board.sugList = board.board[pos.first][pos.second]->getSuggestion(board.board);
 			std::cout << "Show Suggestion\n";
