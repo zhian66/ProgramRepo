@@ -137,7 +137,42 @@ void GameManager::playGame() {
 
 		int check = checGameOver();
 		if (check) {
-			printMSG(check);
+			enum GameOver {
+				Continue, Red_Checkmate, Black_Checkmate, Red_Win, Black_Win
+			};
+			std::cout << "=================================================\n";
+			std::cout << "check: " << check << "\n";
+
+
+			if (check == Red_Checkmate)
+				MessageBoxA(NULL, "Red Checkmate", "Warning", MB_OKCANCEL);
+			else if (check == Black_Checkmate)
+				MessageBoxA(NULL, "Black Checkmate", "Warning", MB_OKCANCEL);
+			else if (check == Red_Win) {
+				int result = MessageBoxA(NULL, "New Game?", "Red Win", MB_YESNO);
+				std::cout << result << "\n=============\n";
+				if (result == IDYES) {
+					gameStatus = NEW_GAME;
+					viewer.chessStatus = GAME_OVER;
+					return;
+				} else if (result == IDNO) {
+					gameStatus = MENU;
+					viewer.chessStatus = GAME_OVER;
+					return;
+				}
+			} else if (check == Black_Win) {
+				int result = MessageBoxA(NULL, "New Game?", "Black Win", MB_YESNO);
+				std::cout << result << "\n=============\n";
+				if (result == IDYES) {
+					gameStatus = NEW_GAME;
+					viewer.chessStatus = GAME_OVER;
+					return;
+				} else if (result == IDNO) {
+					gameStatus = MENU;
+					viewer.chessStatus = GAME_OVER;
+					return;
+				}
+			}
 		}
 		current_player = current_player % 2 + 1;
 	}
@@ -149,35 +184,59 @@ void GameManager::printMSG(int check) {
 	};
 	std::cout << "=================================================\n";
 	std::cout << "check: " << check << "\n";
-	/*
+
+	
 	if (check == Red_Checkmate)
 		MessageBoxA(NULL, "Red Checkmate", "Warning", MB_OKCANCEL);
 	else if (check == Black_Checkmate)
 		MessageBoxA(NULL, "Black Checkmate", "Warning", MB_OKCANCEL);
-	else if (check == Red_Win)
-		MessageBoxA(NULL, "Red Win", "Warning", MB_YESNO);
-	else if (check == Black_Win)
-		MessageBoxA(NULL, "Black Win", "Warning", MB_YESNO | MB_ICONEXCLAMATION);
-	*/
-	
+	else if (check == Red_Win) {
+		int result = MessageBoxA(NULL, "New Game?", "Red Win", MB_YESNO);
+		std::cout << result << "\n=============\n";
+		if (result == IDYES) {
+			gameStatus = 1;
+		} else if (result == IDCANCEL) {
+			gameStatus = 0;
+		}
+	}
+	else if (check == Black_Win) {
+		int result = MessageBoxA(NULL, "New Game?", "Black Win", MB_YESNO);
+		std::cout << result << "\n=============\n";
+		if (result == IDYES) {
+			gameStatus = 1;
+		} else if (result == IDCANCEL) {
+			gameStatus = 0;
+		}
+	}
 }
 
 
 std::string GameManager::openFile() {
-	char filename[MAX_PATH];
 
-	OPENFILENAMEA ofn;
-	ZeroMemory(&filename, sizeof(filename));
-	ZeroMemory(&ofn, sizeof(ofn));
+	char filename[MAX_PATH];
+	//char currFile[MAX_PATH];
+
+	OPENFILENAMEA ofn = {0};
+	
+	std::fill(filename, filename + 300, '\0');
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = NULL;  // If you have a window to center over, put its HANDLE here
 	ofn.lpstrFilter = "All Files(*.*)\0*.*\0\0";
 	ofn.lpstrFile = filename;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.lpstrTitle = "Select a File, yo!";
-	ofn.Flags = OFN_DONTADDTORECENT | OFN_FILEMUSTEXIST;
+	ofn.Flags = OFN_EXPLORER;
+	ofn.lpstrCustomFilter = NULL;
+	ofn.nFilterIndex = 0;
+	ofn.lpstrFileTitle = NULL;
+	ofn.lpstrInitialDir = NULL;
+	std::cout << GetOpenFileNameA(&ofn) << std::endl;
+	std::cout << filename << (int)CommDlgExtendedError();
+	//ofn.Flags = OFN_DONTADDTORECENT | OFN_FILEMUSTEXIST;
 
-	GetOpenFileNameA((LPOPENFILENAMEA)&ofn); 
+	//GetCurrentDirectoryA(MAX_PATH, currFile);
+	//GetOpenFileNameA((LPOPENFILENAMEA)&ofn); 
+	//SetCurrentDirectoryA(currFile);
 
 		/*
 		if (GetOpenFileNameA((LPOPENFILENAMEA)&ofn)) {
@@ -205,7 +264,8 @@ std::string GameManager::openFile() {
 			default:                    std::cout << "You cancelled.\n";
 			}
 		}*/
-		return std::string(ofn.lpstrFile);
+	//return ofn.lpstrFile;
+	return "";
 }
 
 bool GameManager::LoadGame() {
@@ -219,7 +279,6 @@ bool GameManager::LoadGame() {
 		getline(check, tmp, ' ');
 		tokens.push_back(tmp);
 		//1 player, 3 Soldier (6, 6) -> (6, 5); 
-		viewer.updateGame(board);
 		gameStatus = viewer.gameStatus;
 		chessStatus = viewer.chessStatus;
 		if (gameStatus == GAME_OVER) // surrender??

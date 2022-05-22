@@ -1,12 +1,15 @@
-#pragma once
+#pragma comment(lib,"User32.lib")
+/*
 #define WIN32_LEAN_AND_MEAN
 #include "SFML/Window.hpp"
+*/
 
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include <windows.h>
 #include <Commdlg.h>
+#include <winbase.h>
 
 #include <vector>
 #include "Viewer.h"
@@ -18,6 +21,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
 
 
 
