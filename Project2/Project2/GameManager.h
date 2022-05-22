@@ -2,9 +2,19 @@
 #define WIN32_LEAN_AND_MEAN
 #include "SFML/Window.hpp"
 #include <windows.h>
+
 #include <vector>
+#include <iostream>
+#include <string>
+#include <tchar.h>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
 #include "Viewer.h"
 #include "Board.h"
+
+
 
 class GameManager {
 	enum GameStatus { MENU, NEW_GAME, LOAD_GAME, GAME_OVER};
@@ -31,5 +41,6 @@ public:
 
 	const bool isRunning() const;
 	int getStatus() const;
+	std::string openFile();
 
 }; 
