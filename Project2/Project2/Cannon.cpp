@@ -53,15 +53,16 @@ std::vector<std::pair<int, int>> Cannon::getSuggestion(std::vector<std::vector<C
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
     bool jump = false;
-    for(int Y = pos.second; Y >= 0; Y--) {  // up
+    for(int Y = pos.second - 1; Y >= 0; Y--) {  // up
         sug = std::make_pair(pos.first, Y);
-        if (jump) {
+        if (!jump) {
             if (board[sug.first][sug.second]->isActive)
                 jump = true;
-            sugList.push_back(sug);
+            else
+                sugList.push_back(sug);
         } else {
             if (board[sug.first][sug.second]->isActive)
-                if (board[sug.first][sug.second]->color == color) {
+                if (board[sug.first][sug.second]->color != color) {
                     sugList.push_back(sug);
                     break;
                 }
@@ -69,48 +70,49 @@ std::vector<std::pair<int, int>> Cannon::getSuggestion(std::vector<std::vector<C
             
     }
 
-    bool jump = false;
-    for(int Y = pos.second; Y <= 9; Y++) {  // down
+    jump = false;
+    for(int Y = pos.second + 1; Y <= 9; Y++) {  // down
         sug = std::make_pair(pos.first, Y);
-        if (jump) {
+        if (!jump) {
             if (board[sug.first][sug.second]->isActive)
                 jump = true;
-            sugList.push_back(sug);
+            else
+                sugList.push_back(sug);
         } else {
             if (board[sug.first][sug.second]->isActive)
-                if (board[sug.first][sug.second]->color == color) {
+                if (board[sug.first][sug.second]->color != color) {
                     sugList.push_back(sug);
                     break;
                 }
         }
     }
 
-    bool jump = false;
-    for(int X = pos.first; X >= 0; X--) {  // left
-        sug = std::make_pair(X, pos.first);
-        if (jump) {
+    jump = false;
+    for(int X = pos.first - 1; X >= 0; X--) {  // left
+        sug = std::make_pair(X, pos.second);
+        if (!jump) {
             if (board[sug.first][sug.second]->isActive)
                 jump = true;
-            sugList.push_back(sug);
+            else sugList.push_back(sug);
         } else {
             if (board[sug.first][sug.second]->isActive)
-                if (board[sug.first][sug.second]->color == color) {
+                if (board[sug.first][sug.second]->color != color) {
                     sugList.push_back(sug);
                     break;
                 }
         }
     }
 
-    bool jump = false;
-    for(int X = pos.first; X <= 8; X++) {  // right
-        sug = std::make_pair(X, pos.first);
-        if (jump) {
+    jump = false;
+    for(int X = pos.first + 1; X <= 8; X++) {  // right
+        sug = std::make_pair(X, pos.second);
+        if (!jump) {
             if (board[sug.first][sug.second]->isActive)
                 jump = true;
-            sugList.push_back(sug);
+            else sugList.push_back(sug);
         } else {
             if (board[sug.first][sug.second]->isActive)
-                if (board[sug.first][sug.second]->color == color) {
+                if (board[sug.first][sug.second]->color != color) {
                     sugList.push_back(sug);
                     break;
                 }

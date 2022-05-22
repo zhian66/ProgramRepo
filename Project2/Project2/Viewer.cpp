@@ -25,6 +25,20 @@ bool Pixel2Board(int x, int y, std::pair<int, int>& pos) {     // Convert window
     return 1;
 }
 
+    
+std::vector<sf::CircleShape> Viewer::SuggestCircle(const std::vector<std::pair<int, int>>& sugList) {
+    std::vector<sf::CircleShape> cir;
+    std::pair<int, int> pos;
+    for (auto sug : sugList) {
+        sf::CircleShape tmp(32.5);
+        tmp.setFillColor(sf::Color(255, 120, 120, 200)); //rgb(248, 120, 120)
+        pos = Board2Pixel(sug.first, sug.second);
+        tmp.setPosition(pos.first, pos.second);
+        cir.push_back(tmp);
+    }
+    return cir;
+}
+
 
 Viewer::Viewer() {
     sf::VideoMode videoMode(1200, 800);
@@ -122,6 +136,8 @@ void Viewer::updateGame(const Board& board) {
             i += 1;
         }
     }
+
+    std::vector<sf::CircleShape> cir;
     
     while (window->isOpen()) {
         while (window->pollEvent(event)) {
@@ -139,6 +155,7 @@ void Viewer::updateGame(const Board& board) {
                 }
                 break;
             }
+            
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     int x = event.mouseButton.x;
@@ -165,24 +182,31 @@ void Viewer::updateGame(const Board& board) {
                         continue;
                     } 
 
-                    
                     //click on chess
                     if (chessStatus == WATING) {
                         chessStatus = SHOW_SUGGEST;
                         return;
                     } else if (chessStatus == SHOW_SUGGEST) {
-                        
                         chessStatus = KICK;
                         return;
                     }
                 }
             }
+            if (chessStatus == SHOW_SUGGEST) {
+                cir = SuggestCircle(board.sugList);
+                break;
+            } 
         }
 
         window->clear(sf::Color::White);
         window->draw(sprite);
         for (auto c : chessSprite) {
             window->draw(c);
+        }
+        if (chessStatus == SHOW_SUGGEST) {
+            for (auto sug : cir) {
+                window->draw(sug);
+            }
         }
         window->display();
     }

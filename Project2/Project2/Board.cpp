@@ -42,6 +42,7 @@ std::vector<Chess*> Board::initBoard() {
     for (int i = 0; i < 10; i++)
         board[i].resize(10);
     std::vector<Chess*> on_board;
+    sugList.clear();
 
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 9; j++) {
@@ -68,6 +69,7 @@ std::vector<Chess*> Board::initBoard() {
             on_board.push_back(board[j][i]);
         }
     }
+    
     return on_board;
 }
 

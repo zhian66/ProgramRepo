@@ -22,7 +22,9 @@ private:
 	enum GameStatus { MENU, NEW_GAME, LOAD_GAME, GAME_OVER };
 	enum ChessStatus { WATING, SHOW_SUGGEST, KICK, MOVE_PIECE };
 
+	std::vector<sf::CircleShape> SuggestCircle(const std::vector<std::pair<int, int>>& sugList);
 	friend void setIcon(sf::RenderWindow& window);
+
 	sf::RenderWindow* window;
 	sf::Event event;
 

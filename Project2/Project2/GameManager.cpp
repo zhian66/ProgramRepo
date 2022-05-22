@@ -24,15 +24,9 @@ void GameManager::playGame() {
 
 		gameStatus = viewer.gameStatus;
 
-		std::vector<std::pair<int, int>> sugList;
 		prePos = pos;
 		pos = viewer.pressedPos;
 
-		// If Wrong Player click
-		if (board.board[pos.first][pos.second]->color != current_player) {									
-			viewer.chessStatus = WATING;
-			continue;
-		}
 
 		if (gameStatus == GAME_OVER) // surrender??
 			break;
@@ -43,8 +37,8 @@ void GameManager::playGame() {
 		
 		// check if move in suggestion list
 		bool found = false;
-		for (auto& sug : sugList) {
-			if (prePos == sug) {
+		for (auto& sug : board.sugList) {
+			if (pos == sug) {
 				found = true;
 				break;
 			}
@@ -53,9 +47,14 @@ void GameManager::playGame() {
 			viewer.chessStatus = SHOW_SUGGEST;
 
 		if (viewer.chessStatus == SHOW_SUGGEST) {
-			sugList = board.board[pos.first][pos.second]->getSuggestion(board.board);
+			// If Wrong Player click
+			if (board.board[pos.first][pos.second]->color != current_player) {
+				viewer.chessStatus = WATING;
+				continue;
+			} 
+			board.sugList = board.board[pos.first][pos.second]->getSuggestion(board.board);
 			std::cout << "Show Suggestion\n";
-			for (auto& sug : sugList) {
+			for (auto& sug : board.sugList) {
 				std::cout << sug.first << " " << sug.second << "\n";
 			}
 			continue;
@@ -63,13 +62,25 @@ void GameManager::playGame() {
 
 		if (viewer.chessStatus == KICK) {
 			std::cout << "Kick\n";
+			delete board.board[pos.first][pos.second];
+			Chess* temp = new Empty;
+			board.board[pos.first][pos.second] = board.board[prePos.first][prePos.second];
+			board.board[prePos.first][prePos.second] = temp;
+			board.board[pos.first][pos.second]->pos.first = pos.first;
+			board.board[pos.first][pos.second]->pos.second = pos.second;
 			viewer.chessStatus = WATING;
 
 		} else if (viewer.chessStatus == MOVE_PIECE) {
 			std::cout << "Move piece\n";
+			delete board.board[pos.first][pos.second];
+			Chess* temp = new Empty;
+			board.board[pos.first][pos.second] = board.board[prePos.first][prePos.second];
+			board.board[prePos.first][prePos.second] = temp;
+			board.board[pos.first][pos.second]->pos.first = pos.first;
+			board.board[pos.first][pos.second]->pos.second = pos.second;
 			viewer.chessStatus = WATING;
-
 		}
+		current_player = current_player % 2 + 1;
 	}
 }
 
