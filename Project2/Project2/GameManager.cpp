@@ -12,31 +12,62 @@ void GameManager::menu() {
 
 void GameManager::initGame() {
 	current_player = 1;
-	board.initBoard();
+	on_board = board.initBoard();
 }
 
 void GameManager::playGame() {
+	std::pair<int, int> pos(-1, -1);
+	std::pair<int, int> prePos;
+
 	while (gameStatus != GAME_OVER) {
 		viewer.updateGame(board);
+
 		gameStatus = viewer.gameStatus;
-		chessStatus = viewer.chessStatus;
+
+		std::vector<std::pair<int, int>> sugList;
+		prePos = pos;
+		pos = viewer.pressedPos;
+
+		// If Wrong Player click
+		if (board.board[pos.first][pos.second]->color != current_player) {									
+			viewer.chessStatus = WATING;
+			continue;
+		}
+
 		if (gameStatus == GAME_OVER) // surrender??
 			break;
-		if (chessStatus == WATING) {
+
+		if (viewer.chessStatus == WATING) {
 			// do nothing
-		} else if (chessStatus == SHOW_SUGGEST) {
-			std::vector<std::pair<int, int>> sugList;
-			std::pair<int, int> pos = viewer.pressedPos;
-			if (board.board[pos.first][pos.second]->id == 1) {
-				sugList = board.board[pos.first][pos.second]->getSuggestion();
-				for (auto& sug : sugList) {
-					std::cout << sug.first << " " << sug.second << "\n";
-				}
+		} 
+		
+		// check if move in suggestion list
+		bool found = false;
+		for (auto& sug : sugList) {
+			if (prePos == sug) {
+				found = true;
+				break;
 			}
+		}
+		if (!found) 
+			viewer.chessStatus = SHOW_SUGGEST;
 
-		} else if (chessStatus == KICK) {
+		if (viewer.chessStatus == SHOW_SUGGEST) {
+			sugList = board.board[pos.first][pos.second]->getSuggestion(board.board);
+			std::cout << "Show Suggestion\n";
+			for (auto& sug : sugList) {
+				std::cout << sug.first << " " << sug.second << "\n";
+			}
+			continue;
+		}
 
-		} else if (chessStatus == MOVE_PIECE) {
+		if (viewer.chessStatus == KICK) {
+			std::cout << "Kick\n";
+			viewer.chessStatus = WATING;
+
+		} else if (viewer.chessStatus == MOVE_PIECE) {
+			std::cout << "Move piece\n";
+			viewer.chessStatus = WATING;
 
 		}
 	}

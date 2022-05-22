@@ -48,36 +48,50 @@ Minister& Minister::operator= (const std::pair<int, int>& Pos) {
     return *this;
 }
 
-std::vector<std::pair<int, int>> Minister::getSuggestion(){
+std::vector<std::pair<int, int>> Minister::getSuggestion(std::vector<std::vector<Chess*>> board){
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
+    std::pair<int, int> boundary(0, 9);
+    
+    if (color == 1)
+        boundary.first = 5;
+    else
+        boundary.second = 4;
     {
         //  up right
         sug = pos;
         sug.first += 2;
         sug.second -= 2;
-        if(sug.first <= 8 && sug.second >= 0 && !inEnemy()) sugList.push_back(sug);
+        if(sug.first <= 8 && sug.second >= boundary.first)
+            if (!board[pos.first + 1][pos.second - 1]->isActive)
+                sugList.push_back(sug);
     }
     {
         //  down right
         sug = pos;
         sug.first += 2;
         sug.second += 2;
-        if(sug.first <= 8 && sug.second <= 9 && !inEnemy()) sugList.push_back(sug);
+        if(sug.first <= 8 && sug.second <= boundary.second)
+            if (!board[pos.first + 1][pos.second + 1]->isActive)
+                sugList.push_back(sug);
     }
     {
         //  up left
         sug = pos;
         sug.first -= 2;
         sug.second -= 2;
-        if(sug.first >= 0 && sug.second >= 0 && !inEnemy()) sugList.push_back(sug);
+        if(sug.first >= 0 && sug.second >= boundary.first)
+            if (!board[pos.first - 1][pos.second - 1]->isActive)
+                sugList.push_back(sug);
     }
     {
         //  down left
         sug = pos;
         sug.first -= 2;
         sug.second += 2;
-        if(sug.first >= 0 && sug.second <= 9 && !inEnemy()) sugList.push_back(sug);
+        if(sug.first >= 0 && sug.second <= boundary.second)
+            if (!board[pos.first - 1][pos.second + 1]->isActive)
+                sugList.push_back(sug);
     }
     return sugList;
 }

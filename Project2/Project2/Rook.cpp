@@ -49,23 +49,46 @@ Rook& Rook::operator= (const std::pair<int, int>& Pos) {
     return *this;
 }
 
-std::vector<std::pair<int, int>> Rook::getSuggestion(){
+std::vector<std::pair<int, int>> Rook::getSuggestion(std::vector<std::vector<Chess*>> board){
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
-    for(int Y = pos.second; Y >= 0; Y--) {  // up
+    for(int Y = pos.second - 1; Y >= 0; Y--) {  // up
+        if (board[pos.first][Y]->isActive)
+            if (board[pos.first][Y]->color == color)
+                break;
+            else
+                sugList.push_back(std::make_pair(pos.first, Y));
+
         sug = std::make_pair(pos.first, Y);
         sugList.push_back(sug);
     }
-    for(int Y = pos.second; Y <= 9; Y++) {  // down
+    for(int Y = pos.second + 1; Y <= 9; Y++) {  // down
+        if (board[pos.first][Y]->isActive)
+            if (board[pos.first][Y]->color == color)
+                break;
+            else
+                sugList.push_back(std::make_pair(pos.first, Y));
+
         sug = std::make_pair(pos.first, Y);
         sugList.push_back(sug);
     }
-    for(int X = pos.first; X >= 0; X--) {  // left
-        sug = std::make_pair(X, pos.first);
+    for(int X = pos.first - 1; X >= 0; X--) {  // left
+        if (board[X][pos.second]->isActive)
+            if (board[X][pos.second]->color == color)
+                break;
+            else
+                sugList.push_back(std::make_pair(X, pos.second));
+
+        sug = std::make_pair(X, pos.second);
         sugList.push_back(sug);
     }
-    for(int X = pos.first; X <= 8; X++) {  // right
-        sug = std::make_pair(X, pos.first);
+    for(int X = pos.first + 1; X <= 8; X++) {  // right
+        if (board[X][pos.second]->isActive)
+            if (board[X][pos.second]->color == color)
+                break;
+            else
+                sugList.push_back(std::make_pair(X, pos.second));
+        sug = std::make_pair(X, pos.second);
         sugList.push_back(sug);
     }
     return sugList;

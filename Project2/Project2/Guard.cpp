@@ -49,36 +49,50 @@ Guard& Guard::operator= (const std::pair<int, int>& Pos) {
     return *this;
 }
 
-std::vector<std::pair<int, int>> Guard::getSuggestion(){
+std::vector<std::pair<int, int>> Guard::getSuggestion(std::vector<std::vector<Chess*>> board){
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
+    std::pair<int, int> tmp = pos;
+    if (color == 1) tmp.second -= 7;
     {
         //  up right
-        sug = pos;
+        sug = tmp;
         sug.first += 1;
         sug.second -= 1;
-        if(sug.first <= 5 && sug.second >= 0) sugList.push_back(sug);
+        if(sug.first <= 5 && sug.second >= 0)
+            if (!(board[sug.first][sug.second]->isActive && 
+                board[sug.first][sug.second]->color == color))
+                sugList.push_back(sug);
     }
     {
         //  down right
-        sug = pos;
+        sug = tmp;
         sug.first += 1;
         sug.second += 1;
-        if(sug.first <= 5 && sug.second <= 2) sugList.push_back(sug);
+        if(sug.first <= 5 && sug.second <= 2) 
+            if (!(board[sug.first][sug.second]->isActive && 
+                board[sug.first][sug.second]->color == color))
+                sugList.push_back(sug);
     }
     {
         //  up left
-        sug = pos;
+        sug = tmp;
         sug.first -= 1;
         sug.second -= 1;
-        if(sug.first >= 3 && sug.second >= 0) sugList.push_back(sug);
+        if(sug.first >= 3 && sug.second >= 0) 
+            if (!(board[sug.first][sug.second]->isActive && 
+                board[sug.first][sug.second]->color == color))
+                sugList.push_back(sug);
     }
     {
         //  down left
-        sug = pos;
+        sug = tmp;
         sug.first -= 1;
         sug.second += 1;
-        if(sug.first >= 3 && sug.second <= 2) sugList.push_back(sug);
+        if(sug.first >= 3 && sug.second <= 2) 
+            if (!(board[sug.first][sug.second]->isActive && 
+                board[sug.first][sug.second]->color == color))
+                sugList.push_back(sug);
     }
     return sugList;
 }

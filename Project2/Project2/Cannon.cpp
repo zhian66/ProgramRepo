@@ -49,24 +49,72 @@ Cannon& Cannon::operator= (const std::pair<int, int>& Pos) {
     return *this;
 }
 
-std::vector<std::pair<int, int>> Cannon::getSuggestion(){
+std::vector<std::pair<int, int>> Cannon::getSuggestion(std::vector<std::vector<Chess*>> board){
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
+    bool jump = false;
     for(int Y = pos.second; Y >= 0; Y--) {  // up
         sug = std::make_pair(pos.first, Y);
-        sugList.push_back(sug);
+        if (jump) {
+            if (board[sug.first][sug.second]->isActive)
+                jump = true;
+            sugList.push_back(sug);
+        } else {
+            if (board[sug.first][sug.second]->isActive)
+                if (board[sug.first][sug.second]->color == color) {
+                    sugList.push_back(sug);
+                    break;
+                }
+        }
+            
     }
+
+    bool jump = false;
     for(int Y = pos.second; Y <= 9; Y++) {  // down
         sug = std::make_pair(pos.first, Y);
-        sugList.push_back(sug);
+        if (jump) {
+            if (board[sug.first][sug.second]->isActive)
+                jump = true;
+            sugList.push_back(sug);
+        } else {
+            if (board[sug.first][sug.second]->isActive)
+                if (board[sug.first][sug.second]->color == color) {
+                    sugList.push_back(sug);
+                    break;
+                }
+        }
     }
+
+    bool jump = false;
     for(int X = pos.first; X >= 0; X--) {  // left
         sug = std::make_pair(X, pos.first);
-        sugList.push_back(sug);
+        if (jump) {
+            if (board[sug.first][sug.second]->isActive)
+                jump = true;
+            sugList.push_back(sug);
+        } else {
+            if (board[sug.first][sug.second]->isActive)
+                if (board[sug.first][sug.second]->color == color) {
+                    sugList.push_back(sug);
+                    break;
+                }
+        }
     }
+
+    bool jump = false;
     for(int X = pos.first; X <= 8; X++) {  // right
         sug = std::make_pair(X, pos.first);
-        sugList.push_back(sug);
+        if (jump) {
+            if (board[sug.first][sug.second]->isActive)
+                jump = true;
+            sugList.push_back(sug);
+        } else {
+            if (board[sug.first][sug.second]->isActive)
+                if (board[sug.first][sug.second]->color == color) {
+                    sugList.push_back(sug);
+                    break;
+                }
+        }
     }
     return sugList;
 }

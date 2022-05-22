@@ -9,19 +9,19 @@ void setIcon(sf::RenderWindow& window) {
 }
 
 std::pair<int, int> Board2Pixel(int x, int y) {   // Convert board x-y to windows x-y(pixel)
-    int convertX = 265 + y * 76;
-    int convertY = 5 + x * 80;
+    int convertX = 265 + x * 76;
+    int convertY = 5 + y * 80;
     return std::pair<int, int>{convertX, convertY};
 }
  
 
 bool Pixel2Board(int x, int y, std::pair<int, int>& pos) {     // Convert windows x-y(pixel) to board x-y
-    if (x >= 1025 || x < 265)
+    if (x >= 940 || x < 265)
         return 0;
-    if (y >= 725 || y < 5)
+    if (y >= 790 || y < 5)
         return 0;
-    pos.second = (x - 265) / 76;
-    pos.first = (y - 5) / 80;
+    pos.first = (x - 265) / 76;
+    pos.second = (y - 5) / 80;
     return 1;
 }
 
@@ -110,8 +110,8 @@ void Viewer::updateGame(const Board& board) {
     std::vector<sf::Texture> chessTexture(32);
     std::vector<sf::Sprite> chessSprite(32);
     int i = 0;
-    for (int x = 0; x < 10; x++) {
-        for (int y = 0; y < 9; y++) {
+    for (int x = 0; x < 9; x++) {
+        for (int y = 0; y < 10; y++) {
             if (!board.board[x][y]->isActive) continue;
             std::string path = "Texture/" + std::to_string(board.board[x][y]->color) + std::to_string(board.board[x][y]->id) + ".png";
             if (!chessTexture[i].loadFromFile(path, sf::IntRect(0, 0, 65, 65)))
@@ -129,6 +129,7 @@ void Viewer::updateGame(const Board& board) {
             case sf::Event::Closed: // closing using the cross button of the window
                 window->close(); // close the main window and gets out of this loop
                 std::cout << "Close\n";
+                gameStatus = GAME_OVER;
                 break;
             case sf::Event::MouseButtonPressed: // clicking
                 if (event.mouseButton.button == sf::Mouse::Right) {
@@ -143,30 +144,36 @@ void Viewer::updateGame(const Board& board) {
                     int x = event.mouseButton.x;
                     int y = event.mouseButton.y;
                     std::pair<int, int> pos;
-                    if (!Pixel2Board(x, y, pos)) {
-                        if (chessStatus == SHOW_SUGGEST)
+
+                    // if not click on board
+                    if (!Pixel2Board(x, y, pos)) {                              
+                        if (chessStatus == SHOW_SUGGEST) 
                             chessStatus = WATING;
                         continue;
-                    } else if (!board.board[pos.first][pos.second]->isActive) {
+                    } 
+
+                    // click on board
+                    std::cout << "Click " << board.board[pos.first][pos.second]->id << "\n";
+                    pressedPos = pos;
+
+                    // if not click on chess
+                    if (!board.board[pos.first][pos.second]->isActive) { 
                         if (chessStatus == SHOW_SUGGEST) {
-                            std::cout << "Move piece\n";
                             chessStatus = MOVE_PIECE;
-                            break;
+                            return;
                         }
                         continue;
-                    } else {
-                        std::cout << "Click " << board.board[pos.first][pos.second]->id << "\n";
-                        pressedPos = pos;
+                    } 
 
-                        if (chessStatus == WATING) {
-                            std::cout << "Show Suggestion\n";
-                            chessStatus = SHOW_SUGGEST;
-                            return;
-                        } else if (chessStatus == SHOW_SUGGEST) {
-                            std::cout << "Kick\n";
-                            chessStatus = KICK;
-                            break;
-                        }
+                    
+                    //click on chess
+                    if (chessStatus == WATING) {
+                        chessStatus = SHOW_SUGGEST;
+                        return;
+                    } else if (chessStatus == SHOW_SUGGEST) {
+                        
+                        chessStatus = KICK;
+                        return;
                     }
                 }
             }

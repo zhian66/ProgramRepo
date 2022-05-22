@@ -49,64 +49,47 @@ Horse& Horse::operator= (const std::pair<int, int>& Pos) {
     return *this;
 }
 
-std::vector<std::pair<int, int>> Horse::getSuggestion(){
+std::vector<std::pair<int, int>> Horse::getSuggestion(std::vector<std::vector<Chess*>> board){
     std::vector<std::pair<int, int>> sugList;
     std::pair<int, int> sug;
     {
-        //  up right1
-        sug = pos;
-        sug.first += 1;
-        sug.second -= 2;
-        if(sug.first <= 8 && sug.second >= 0) sugList.push_back(sug);
+        //  up and down
+        for (int y = -1; y <= 1; y += 2) {
+            sug = pos;
+            sug.second += 2 * y;
+            if (sug.second > 9 || sug.second < 0)
+                continue;
+            if (board[sug.first][sug.second - y]->isActive)
+                continue;
+            
+            for (int x = -1; x <= 1; x += 2) {
+                if (sug.first + x > 8 || sug.first + x < 0)
+                    continue;
+                if (board[sug.first + x][sug.second]->isActive)
+                    if (board[sug.first + x][sug.second]->color == color)
+                        continue;
+                sugList.push_back(std::make_pair(sug.first + x, sug.second));
+            }
+        }
     }
     {
-        //  up right2
-        sug = pos;
-        sug.first += 2;
-        sug.second -= 1;
-        if(sug.first <= 8 && sug.second >= 0) sugList.push_back(sug);
-    }
-    {
-        //  down right1
-        sug = pos;
-        sug.first += 2;
-        sug.second += 1;
-        if(sug.first <= 8 && sug.second <= 9) sugList.push_back(sug);
-    }
-    {
-        //  down right2
-        sug = pos;
-        sug.first += 1;
-        sug.second += 2;
-        if(sug.first <= 8 && sug.second <= 9) sugList.push_back(sug);
-    }
-    {
-        //  up left1
-        sug = pos;
-        sug.first -= 1;
-        sug.second -= 2;
-        if(sug.first >= 0 && sug.second >= 0) sugList.push_back(sug);
-    }
-    {
-        //  up left2
-        sug = pos;
-        sug.first -= 2;
-        sug.second -= 1;
-        if(sug.first >= 0 && sug.second >= 0) sugList.push_back(sug);
-    }
-    {
-        //  down left1
-        sug = pos;
-        sug.first -= 2;
-        sug.second += 1;
-        if(sug.first >= 0 && sug.second <= 9) sugList.push_back(sug);
-    }
-    {
-        //  down left2
-        sug = pos;
-        sug.first -= 1;
-        sug.second += 2;
-        if(sug.first >= 0 && sug.second <= 9) sugList.push_back(sug);
+        // left and right
+        for (int x = -1; x <= 1; x += 2) {
+            sug = pos;
+            sug.first += 2 * x;
+            if (sug.first < 0 || sug.first > 8)
+                continue;
+            if (board[sug.first - x][sug.second]->isActive)
+                continue;
+            for (int y = -1; y <= 1; y += 2) {
+                if (sug.second + y > 9 || sug.second + y < 0)
+                    continue;
+                if (board[sug.first + y][sug.second]->isActive)
+                    if (board[sug.first][sug.second + y]->color == color)
+                        continue;
+                sugList.push_back(std::make_pair(sug.first, sug.second + y));
+            }
+        }
     }
     return sugList;
 }

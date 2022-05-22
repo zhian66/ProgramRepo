@@ -52,28 +52,40 @@ Pawn& Pawn::operator= (const std::pair<int, int>& Pos) {
     return *this;
 }
 
-std::vector<std::pair<int, int>> Pawn::getSuggestion(){
-    std::vector<std::pair<int, int>> sugList;
+std::vector<std::pair<int, int>> Pawn::getSuggestion(std::vector<std::vector<Chess*>> board){
     std::pair<int, int> sug;
-    if(pos.second != 0 && color == 0) {    // up
-        sug = pos;
-        sug.second--;
-        sugList.push_back(sug);
+    std::vector<std::pair<int, int>> sugList;
+    bool throghRiver = false;
+
+    if (color == 1) {                       // Red    
+        if (pos.second < 5)
+            throghRiver = true;
+        if (pos.second != 0) {    // up
+            sug = pos;
+            sug.second--;
+            sugList.push_back(sug);
+        }
+    } else {                                // Black
+        if (pos.second > 4)
+            throghRiver = true;
+        if (pos.second != 9) {    // down
+            sug = pos;
+            sug.second++;
+            sugList.push_back(sug);
+        }
+
     }
-    if(color == 1 && pos.second != 9) {    // down
-        sug = pos;
-        sug.second++;
-        sugList.push_back(sug);
-    }
-    if(pos.first != 8 && inEnemy()) {    // right
-        sug = pos;
-        sug.first++;
-        sugList.push_back(sug);
-    }
-    if(pos.first != 0 && inEnemy()) {    // left
-        sug = pos;
-        sug.first--;
-        sugList.push_back(sug);
+    if (throghRiver) {
+        if (pos.first != 8 && inEnemy()) {    // right
+            sug = pos;
+            sug.first++;
+            sugList.push_back(sug);
+        }
+        if (pos.first != 0 && inEnemy()) {    // left
+            sug = pos;
+            sug.first--;
+            sugList.push_back(sug);
+        }
     }
     return sugList;
 }

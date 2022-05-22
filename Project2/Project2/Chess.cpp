@@ -68,7 +68,7 @@ void Chess::kick() {
     return;
 }
 
-std::vector<std::pair<int, int>> Chess::getSuggestion() {
+std::vector<std::pair<int, int>> Chess::getSuggestion(std::vector<std::vector<Chess*>> board) {
     std::vector<std::pair<int, int>> sugList;
     return sugList;
 }
@@ -93,7 +93,7 @@ Empty::Empty() {
     isActive = false;
 }
 
-std::vector<std::pair<int, int>> Empty::getSuggestion() {
+std::vector<std::pair<int, int>> Empty::getSuggestion(std::vector<std::vector<Chess*>> board) {
     std::vector<std::pair<int, int>> sugList;
     return sugList;
 }

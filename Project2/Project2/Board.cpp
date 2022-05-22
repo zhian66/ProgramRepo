@@ -37,35 +37,35 @@ Board& Board::operator= (const Board& brd) {
     return *this;
 }
 
-std::vector<Chess> Board::initBoard() {
+std::vector<Chess*> Board::initBoard() {
     board.resize(10);
     for (int i = 0; i < 10; i++)
-        board[i].resize(9);
-    std::vector<Chess> on_board;
+        board[i].resize(10);
+    std::vector<Chess*> on_board;
 
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 9; j++) {
             // color 0 is black, 1 is red
-            int color = i < 5 ? 0 : 1;
+            int color = i < 5 ? 2 : 1;
             if (nameTable[i][j] == "Empty") {
-                board[i][j] = new Empty();
+                board[j][i] = new Empty();
                 continue;
             } else if (nameTable[i][j] == "King") {
-                board[i][j] = new King(i, j, color);
+                board[j][i] = new King(j, i, color);
             } else if (nameTable[i][j] == "Guard") {
-                board[i][j] = new Guard(i, j, color);
+                board[j][i] = new Guard(j, i, color);
             } else if (nameTable[i][j] == "Minister") {
-                board[i][j] = new Minister(i, j, color);
+                board[j][i] = new Minister(j, i, color);
             } else if (nameTable[i][j] == "Horse") {
-                board[i][j] = new Horse(i, j, color);
+                board[j][i] = new Horse(j, i, color);
             } else if (nameTable[i][j] == "Rook") {
-                board[i][j] = new Rook(i, j, color);
+                board[j][i] = new Rook(j, i, color);
             } else if (nameTable[i][j] == "Cannon") {
-                board[i][j] = new Cannon(i, j, color);
+                board[j][i] = new Cannon(j, i, color);
             } else if (nameTable[i][j] == "Pawn") {
-                board[i][j] = new Pawn(i, j, color);
+                board[j][i] = new Pawn(j, i, color);
             }
-            on_board.push_back(*board[i][j]);
+            on_board.push_back(board[j][i]);
         }
     }
     return on_board;
